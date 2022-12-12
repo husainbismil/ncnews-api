@@ -11,7 +11,7 @@ Before anything, you can fork, clone, or download this repo.
 See here for help: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
 
 The repo files should be in a folder named 'ncnews-server'.
-
+ 
 
 ## Setting up your .env files
 
@@ -35,6 +35,12 @@ Step 4) Open the 'env.test' file. Copy the following code, paste it into the fil
 PGDATABASE=nc_news_test
 ```
 
+Step 5) Finally, you should adjust the permissions of the two newly created .env files, so that when you host them, they cannot be accessed by the public. To do this, from your root /ncnews-server/ directory where the .env files are located, run the two following terminal commands:
+
+```js
+sudo chmod 440 .env.development
+sudo chmod 440 .env.test
+```
 
 ## Installing required dependencies
 
@@ -61,3 +67,9 @@ Please note this readme file is under construction and is not yet complete.
 https://github.com/husainbismil/ncnews-server
 
 https://github.com/northcoders/be-nc-news
+
+
+
+
+
+
