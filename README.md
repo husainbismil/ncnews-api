@@ -17,7 +17,7 @@ The repo files should be in a folder named 'ncnews-server'.
 
 Next, you need to set up your 'dotenv' files. 
 
-"Dotenv files are used to load environment variables from a . env file into the running process. This file may expose sensitive information that could help a malicious user to prepare more advanced attacks."
+*"Dotenv files are used to load environment variables from a . env file into the running process. This file may expose sensitive information that could help a malicious user to prepare more advanced attacks."*
 
 Step 1) Create a file in the root /ncnews-server/ folder, named '.env.development', without the quotes.
 
