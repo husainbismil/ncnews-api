@@ -44,7 +44,19 @@ sudo chmod 440 .env.test
 
 ## Installing required dependencies
 
-Next, you need to make sure you have the required npm packages installed for the application to function correctly. 
+First, you need to install nodejs, and the nodejs package manager (npm).
+
+For linux (ubuntu/debian), use these instructions to do that, located under the heading "Install Node.js and npm from the Ubuntu repository": https://linuxize.com/post/how-to-install-node-js-on-ubuntu-20-04/
+
+For Windows, use these instructions: [windows instructions]
+
+For WSL, use these instructions: [wsl instructions]
+
+For Mac OSX, use these instructions: [mac osx instructions]
+
+Once nodeJS is verified as installed, you can proceed to the next steps below. 
+
+Next, you need to make sure you have the required npm (node package manager) packages installed for the application to function correctly. 
 
 Step 5) Open a terminal instance and navigate to your /ncnews-server/ folder.
 
