@@ -11,13 +11,13 @@ Before anything, you can fork, clone, or download this repo.
 See here for help: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
 
 The repo files should be in a folder named 'ncnews-server'.
-
+ 
 
 ## Setting up your .env files
 
 Next, you need to set up your 'dotenv' files. 
 
-"Dotenv files are used to load environment variables from a . env file into the running process. This file may expose sensitive information that could help a malicious user to prepare more advanced attacks."
+*"Dotenv files are used to load environment variables from a . env file into the running process. This file may expose sensitive information that could help a malicious user to prepare more advanced attacks."*
 
 Step 1) Create a file in the root /ncnews-server/ folder, named '.env.development', without the quotes.
 
@@ -35,6 +35,12 @@ Step 4) Open the 'env.test' file. Copy the following code, paste it into the fil
 PGDATABASE=nc_news_test
 ```
 
+Step 5) Finally, you should adjust the permissions of the two newly created .env files, so that when you host them, they cannot be accessed by the public. To do this, from your root /ncnews-server/ directory where the .env files are located, run the two following terminal commands:
+
+```js
+sudo chmod 440 .env.development
+sudo chmod 440 .env.test
+```
 
 ## Installing required dependencies
 
