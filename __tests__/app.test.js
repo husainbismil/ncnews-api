@@ -36,8 +36,5 @@ describe("NCNews-Server Unit Tests", () => {
     
     });
 
-    describe.only("test", () => {
-
-    });
 
 });

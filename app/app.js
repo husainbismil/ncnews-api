@@ -1,5 +1,5 @@
 const express = require("express");
-const controller = require("../controller/controller.js");
+const c = require("../controller/controller.js");
 const app = express();
 
 
@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 // Endpoints
-app.get("/api/topics", controller.getApiTopics);
+app.get("/api/topics", c.getApiTopics);
 
 // Error Handling
 
