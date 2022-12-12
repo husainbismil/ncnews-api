@@ -1,57 +1,70 @@
-# Northcoders News API
+# Northcoders News API Server #
 
-## Background
+Welcome to Husain's NC-News Server repo, part of my Northcoders ortfolio project. This repository includes the NC-News server files, which need to be hosted somewhere and running for the NC-News front-end to work. 
 
-We will be building an API for the purpose of accessing application data programmatically. The intention here is to mimic the building of a real world backend service (such as reddit) which should provide this information to the front end architecture.
+If you would like to host your own NC-News Server, please follow these instructions. 
 
-Your database will be PSQL, and you will interact with it using [node-postgres](https://node-postgres.com/).
+## First Steps
 
-## Kanban
+Before anything, you can fork, clone, or download this repo. 
 
-### Link to your Trello Board here: https://trello.com/b/7yiHe1nI
+See here for help: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
 
-To keep track of the tasks involved in this project we're going to use a kanban board. Ensure that you work on one _ticket_ at time. You can click on the ticket to find out more information about what is required for the feature. A ticket is not considered complete unless both the happy path and errors response are handled. You can make use of the checklist on each ticket to keep track of the errors you want to handle. You can also make use of [error-handling.md](error-handling.md) to consider the error codes we may wish to respond with.
+The repo files should be in a folder named 'ncnews-server'.
 
-**Please ensure you work through the tickets in numerical order.**
 
-## Git Branching and Pull Requests
+## Setting up your .env files
 
-You will be working on each ticket on a new **branch**.
+Next, you need to set up your 'dotenv' files. 
 
-To create and switch to a new git branch use the command:
+"Dotenv files are used to load environment variables from a . env file into the running process. This file may expose sensitive information that could help a malicious user to prepare more advanced attacks."
 
-```
-git checkout -b <new branch name>
-```
+Step 1) Create a file in the root /ncnews-server/ folder, named '.env.development', without the quotes.
 
-This will create a branch and move over to that branch. (Omit the `-b` flag if you wish to switch to an already existing branch).
+Step 2) Open the 'env.development' file. Copy the following code, paste it into the file, then save it. 
 
-We recommend that you name the branch after the number assigned to each ticket via the header. eg. `ncnews-1`
-
-When pushing the branch to git hub ensure that you make reference to the branch you are pushing to on the remote.
-
-```
-git push origin <branch name>
+```js
+PGDATABASE=nc_news
 ```
 
-From github you can make a pull request and share the link and ticket number via a pull request specific nchelp using the command `nchelp pr`. A tutor will swing by to review your code. Ensure that you keep your trello up to date whilst you await the PR approval. Regular `nchelp` will be available for when you need support.
+Step 3) Create a file in the root /ncnews-server/ folder, named '.env.test', without the quotes.
 
-Once a pull request been accepted be sure to switch back to the main branch and pull down the updated changes.
+Step 4) Open the 'env.test' file. Copy the following code, paste it into the file, then save it. 
 
-```
-git checkout main
-
-git pull origin main
+```js
+PGDATABASE=nc_news_test
 ```
 
-You can tidy up your local branches once they have been pull into main by deleting them:
 
+## Installing required dependencies
+
+Next, you need to make sure you have the required npm packages installed for the application to function correctly. 
+
+Step 5) Open a terminal instance and navigate to your /ncnews-server/ folder.
+
+Step 6) Copy in the following line and press enter:
+
+```js
+npm install
 ```
-git branch -D <local branch>
-```
 
-## Husky
+Assuming no errors are encountered, proceed to the next step. 
 
-To ensure we are not commiting broken code this project makes use of git hooks. Git hooks are scripts triggered during certain events in the git lifecycle. Husky is a popular package which allows us to set up and maintain these scripts. This project makes use a _pre-commit hook_. When we attempt to commit our work, the script defined in the `pre-commit` file will run. If any of our tests fail than the commit will be aborted.
 
-The [Husky documentation](https://typicode.github.io/husky/#/) explains how to configure Husky for your own project as well as creating your own custom hooks.\_
+## Under Construction
+
+Please note this readme file is under construction and is not yet complete.
+
+
+## Original Repo
+
+https://github.com/husainbismil/ncnews-server
+
+https://github.com/northcoders/be-nc-news
+
+
+
+
+
+
+
