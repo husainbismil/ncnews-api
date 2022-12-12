@@ -1,6 +1,6 @@
 # Northcoders News API Server #
 
-Welcome to Husain's NC-News Server repo, part of my Northcoders ortfolio project. This repository includes the NC-News server files, which need to be hosted somewhere and running for the NC-News front-end to work. 
+Welcome to Husain's NC-News Server repo, part of my Northcoders portfolio project. This repository includes the NC-News server files, which need to be hosted somewhere and running for the NC-News front-end to work. 
 
 If you would like to host your own NC-News Server, please follow these instructions. 
 
