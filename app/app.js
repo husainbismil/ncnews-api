@@ -4,23 +4,17 @@ const app = express();
 
 
 // Parse JSON by default
-app.use(express.json());
+// removed until its in use
 
 // Endpoints
 app.get("/api/topics", controller.getApiTopics);
 app.get("/api/articles", controller.getApiArticles);
+app.get("/api/articles/:article_id", controller.getArticleById);
 
 // Error Handling
-
-app.all('/*', (req, res) => {
-    res.status(404).send({ msg: 'Error 404: Route not found' });
-});
- 
-app.use((err, req, res, next) => {
-    console.log(err);
-    res.sendStatus(500)
-         .send ({msg : 'Error 500: Internal Server Error'});
-});
-
+// removed until test suite for error handling checks is made
 
 module.exports = app;
+
+
+// TODO: complete changes in PR 2, then 

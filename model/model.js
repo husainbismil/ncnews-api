@@ -1,4 +1,3 @@
-// c = controller, m = model, v = view, db = database
 const db = require("../db/connection.js");
 
 exports.selectTopics = () => {
