@@ -22,7 +22,6 @@ describe("NCNews-Server Unit Tests", () => {
             return request(app).get("/api/topics").expect(200).then((response) => {
                 const topics = response.body;
 
-                expect(topics).toBeInstanceOf(Array);
                 topics.forEach((topicObject) => {
                     expect(topicObject).toEqual(
                         expect.objectContaining({
