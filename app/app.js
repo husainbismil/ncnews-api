@@ -11,15 +11,7 @@ app.get("/api/topics", c.getApiTopics);
 
 // Error Handling
 
-app.all('/*', (req, res) => {
-    res.status(404).send({ msg: 'Error 404: Route not found' });
-});
- 
-app.use((err, req, res, next) => {
-    console.log(err);
-    res.sendStatus(500)
-         .send ({msg : 'Error 500: Internal Server Error'});
-});
+// removed 404 and 500 responses from here as tests have not been made yet. make tests to check error handling prior to writing the error handling here
 
 
 module.exports = app;
