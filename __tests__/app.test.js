@@ -15,7 +15,7 @@ afterAll(() => {
 
 describe("NCNews-Server Unit Tests", () => {
 
-    describe("1) GET /api/topics/", () => {
+    describe("GET /api/topics/", () => {
 
         test("Responds with an array of objects, where the objects have at least two properties: slug & description", () => {
 
@@ -34,6 +34,41 @@ describe("NCNews-Server Unit Tests", () => {
         });
        
     
+    });
+
+    describe("GET /api/articles/", () => {
+
+        test("Responds with an array of objects, where the objects have the following 7 properties: author, title, article_id, topic, created_at, votes, comment_count", () => {
+
+            return request(app).get("/api/articles").expect(200).then((response) => {
+                const topics = response.body;
+
+                expect(topics).toBeInstanceOf(Array);
+                topics.forEach((topicObject) => {
+                    expect(topicObject).toEqual(
+                        expect.objectContaining({
+                            author: expect.any(String),
+                            title: expect.any(String),
+                            topic: expect.any(String),
+                            article_id: expect.any(Number),
+                            created_at: expect.any(String),
+                            votes: expect.any(Number),
+                            comment_count: expect.any(Number)
+                    }));
+                });
+            });
+        });
+
+        test("Responds with an array of objects, where the objects are sorted by Date using the 'created_at' property in Descending order (latest dates first)", () => {
+
+            return request(app).get("/api/articles").expect(200).then((response) => {
+                const topics = response.body;                
+                expect(Date.parse(topics[0]["created_at"]) > Date.parse(topics[1]["created_at"])).toBe(true);
+            });
+
+        });
+
+           
     });
 
 
