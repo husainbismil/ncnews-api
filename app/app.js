@@ -4,7 +4,7 @@ const app = express();
 
 
 // Parse JSON by default
-app.use(express.json());
+// removed app use express json for now
 
 // Endpoints
 app.get("/api/topics", c.getApiTopics);
