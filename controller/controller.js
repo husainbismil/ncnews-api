@@ -6,8 +6,8 @@ const m = require("../model/model");
 // /api/topics Endpoint
 exports.getApiTopics = (request, response) => {
     m.selectTopics().then((selectTopicsQueryResult) => {
-        const responseArray = selectTopicsQueryResult.rows;
-        response.status(200).send(responseArray);
+        const responseObject = {topics: selectTopicsQueryResult.rows};
+        response.status(200).send(responseObject);
     }).catch((err) => {
         console.log(err);
     });
