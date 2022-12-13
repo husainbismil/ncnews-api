@@ -1,6 +1,6 @@
 # Northcoders News API Server #
 
-Welcome to Husain's NC-News Server repo, part of my Northcoders portfolio project. This repository includes the NC-News server files, which need to be hosted somewhere and running for the NC-News front-end to work. 
+Welcome to the NC-News Server repo, part of my Northcoders portfolio project and designed to work with the react based front-end web app 'NC News'. This repository includes the NC-News server files, which need to be hosted somewhere and running for the NC-News front-end to work. 
 
 If you would like to host your own NC-News Server, please follow these instructions. 
 
@@ -21,7 +21,7 @@ Next, you need to set up your 'dotenv' files.
 
 Step 1) Create a file in the root /ncnews-server/ folder, named '.env.development', without the quotes.
 
-Step 2) Open the 'env.development' file. Copy the following code, paste it into the file, then save it. 
+Step 2) Open the 'env.development' file, for example using any text editor like Notepad (Windows) or Gedit (Ubuntu Gnome). Copy the following code, paste it into the file, then save it. 
 
 ```js
 PGDATABASE=nc_news
@@ -29,7 +29,7 @@ PGDATABASE=nc_news
 
 Step 3) Create a file in the root /ncnews-server/ folder, named '.env.test', without the quotes.
 
-Step 4) Open the 'env.test' file. Copy the following code, paste it into the file, then save it. 
+Step 4) Open the 'env.test' file using any text editor. Copy the following code, paste it into the file, then save it. 
 
 ```js
 PGDATABASE=nc_news_test
