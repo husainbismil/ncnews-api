@@ -70,8 +70,10 @@ exports.getApiArticles = (request, response) => {
             // for each in updatedArticlesArray, get the number of comments using the currnet articleiD and commentCountByArticleId
             updatedArticlesArray.forEach(feArticleUpdateCommentCount);
 
+            const responseObject = {articles: updatedArticlesArray};
+
             // respond with the updatedArticlesArray            
-            response.status(200).send(updatedArticlesArray);
+            response.status(200).send(responseObject);
             
         });
 
