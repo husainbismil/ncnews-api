@@ -40,11 +40,10 @@ describe("NCNews-Server Unit Tests", () => {
         test("Responds with an array of objects, where the objects have the following 7 properties: author, title, article_id, topic, created_at, votes, comment_count", () => {
 
             return request(app).get("/api/articles").expect(200).then((response) => {
-                const topics = response.body;
+                const articlesArray = response.body.articles;
 
-                expect(topics).toBeInstanceOf(Array);
-                topics.forEach((topicObject) => {
-                    expect(topicObject).toEqual(
+                articlesArray.forEach((articleObject) => {
+                    expect(articleObject).toEqual(
                         expect.objectContaining({
                             author: expect.any(String),
                             title: expect.any(String),
@@ -61,13 +60,47 @@ describe("NCNews-Server Unit Tests", () => {
         test("Responds with an array of objects, where the objects are sorted by Date using the 'created_at' property in Descending order (latest dates first)", () => {
 
             return request(app).get("/api/articles").expect(200).then((response) => {
-                const topics = response.body;                
-                expect(Date.parse(topics[0]["created_at"]) > Date.parse(topics[1]["created_at"])).toBe(true);
+                const articlesArray = response.body.articles;             
+                expect(Date.parse(articlesArray[0]["created_at"]) > Date.parse(articlesArray[1]["created_at"])).toBe(true);
             });
 
         });
 
            
+    });
+
+    // Task 5 - get api articles articleid
+
+    describe("GET /api/articles/:article_id", () => {
+
+        test("Responds with an object with key article and keyval of an object with the following 7 properties: author, title, article_id, topic, body, created_at, votes", () => {
+
+            return request(app).get("/api/articles/1").expect(200).then((response) => {
+                const article = response.body.article;
+
+                    expect(article).toEqual(
+                        expect.objectContaining({
+                            author: expect.any(String),
+                            title: expect.any(String),
+                            topic: expect.any(String),
+                            body: expect.any(String),
+                            article_id: expect.any(Number),
+                            created_at: expect.any(String),
+                            votes: expect.any(Number),
+                    }));
+            });
+        });
+
+        test("Responds with the correct article object with correct articleID", () => {
+
+            return request(app).get("/api/articles/2").expect(200).then((response) => {
+                const article = response.body.article;
+                expect(article["article_id"]).toBe(2);
+            });
+
+        });
+
+
     });
 
 

@@ -24,3 +24,16 @@ exports.selectCommentsByArticleId = (articleIdArray, articlesArray) => {
         return returnedOutput;
     });
 };
+
+exports.selectArticleByArticleId = (articleId) => {
+    // as this involves querying for user input, protection from SQL injection will need to be implemented
+    const securedArticleId = Number(articleId);
+    
+    const sqlQueryParameters = [securedArticleId];
+    const sqlQuery = `SELECT * FROM articles WHERE article_id = $1;`;
+
+    return db.query(sqlQuery, sqlQueryParameters).then((selectArticleByArticleIdQueryResult) => {
+        return selectArticleByArticleIdQueryResult;
+    });   
+
+};
