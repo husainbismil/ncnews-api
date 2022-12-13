@@ -20,7 +20,7 @@ describe("NCNews-Server Unit Tests", () => {
         test("Responds with an array of objects, where the objects have at least two properties: slug & description", () => {
 
             return request(app).get("/api/topics").expect(200).then((response) => {
-                const topics = response.body;
+                const topics = response.body.topics;
 
                 topics.forEach((topicObject) => {
                     expect(topicObject).toEqual(
