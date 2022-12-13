@@ -92,7 +92,27 @@ exports.getArticleById = (request, response) => {
         response.status(200).send(responseObject);
     });
 
-}
+};
+
+// 6. GET /api/articles/:article_id/comments
+exports.getCommentsByArticleId = (request, response) => {
+    const articleId = request.params["article_id"];
+
+    model.selectCommentsByArticleId(articleId).then((selectCommentsByArticleIdOutput) => {
+        const feCommentRemoveArticleId = function (element, index) {
+            delete returnedCommentsArray[index]["article_id"];
+        };
+
+        const responseObject = {};
+        const returnedCommentsArray = selectCommentsByArticleIdOutput.rows;
+
+        // for each comment, remove article_id before responding
+        returnedCommentsArray.forEach(feCommentRemoveArticleId);
+        responseObject.comments = returnedCommentsArray;
+        response.status(200).send(responseObject);
+    });
+
+};
 
 // TODO: find out how error catching is meant to be, repeating .catch here seems not very DRY
     

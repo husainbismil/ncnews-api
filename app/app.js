@@ -10,7 +10,10 @@ const app = express();
 app.get("/api/topics", controller.getApiTopics);
 app.get("/api/articles", controller.getApiArticles);
 app.get("/api/articles/:article_id", controller.getArticleById);
+app.get("/api/articles/:article_id/comments", controller.getCommentsByArticleId);
 
+
+//api/articles/:article_id/comments
 // Error Handling
 // removed until test suite for error handling checks is made
 

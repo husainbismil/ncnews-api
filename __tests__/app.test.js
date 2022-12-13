@@ -103,5 +103,35 @@ describe("NCNews-Server Unit Tests", () => {
 
     });
 
+     // Task 6 - GET /api/articles/:article_id/comments
+
+     describe("GET /api/articles/:article_id/comments", () => {
+
+        test("Responds with an object with key comments and keyval an array of comments, where each comment should have the following properties: comment_id, votes, created_at, author, body", () => {
+
+            return request(app).get("/api/articles/1/comments").expect(200).then((response) => {
+                const comments = response.body.comments;
+
+                expect(comments).toBeInstanceOf(Array);
+                comments.forEach((commentObject) => {
+                    expect(commentObject).toEqual(
+                        expect.objectContaining({
+                            comment_id: expect.any(Number),
+                            created_at: expect.any(String),
+                            votes: expect.any(Number),
+                            author: expect.any(String),
+                            body: expect.any(String)
+                    }));
+                });
+            });
+        });
+
+ 
+    });
+
+
+
+
+
 
 });
