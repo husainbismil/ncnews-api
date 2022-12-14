@@ -1,14 +1,12 @@
-pull requests:
+## This pull request needs re-reviewing after changes were made: 
+Task 4, Get Article: https://github.com/husainbismil/ncnews-server/pull/3
 
-[SUBMITTED] trello task 3 get api topics v2 (after kyle changes, needs resubmission): https://github.com/husainbismil/ncnews-server/pull/2
-[ ] trello task 4 get api articles: https://github.com/husainbismil/ncnews-server/pull/3
-[ ] trello task 5 get api article by articleid: https://github.com/husainbismil/ncnews-server/pull/4
-[ ] trello task 6 get api articles articleids comments: https://github.com/husainbismil/ncnews-server/pull/5
-[ ] trello task 7 POST /api/articles/:article_id/comments: https://github.com/husainbismil/ncnews-server/pull/6
+## These pull requests need reviewing for the first time: 
+Task 5, Get Article By Id: https://github.com/husainbismil/ncnews-server/pull/4
+Task 6, Get Comments By Article Id: https://github.com/husainbismil/ncnews-server/pull/5
+Task 7, Post Comment By Article Id: https://github.com/husainbismil/ncnews-server/pull/6
  
 
-
-
-----
- improvements
-
+---
+tasks 1+2, reviewed and merged.
+task 3, reviewed and merged.
