@@ -1,8 +1,5 @@
 const model = require("../model/model");
 
-// TODO: find out how error catching is meant to be, repeating .catch here seems not very DRY
-// TODO: set up routers to make this stuff look cleaner
-
 // /api/topics Endpoints
 exports.getApiTopics = (request, response) => {
     model.selectTopics().then((selectTopicsResponseObject) => {
