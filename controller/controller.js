@@ -17,6 +17,7 @@ exports.getApiArticles = (request, response) => {
     // TODO: instead of doing this for every articles request, find way to just store comment count in the db and keep it updated, that way theres no need to calculate it each time
     model.selectArticles().then((selectArticlesQueryResult) => {
         // queryResult = selected articles
+        // TODO: move this stuff from controller to model, data manipulation is meant to be in the model only
         const articlesArray = selectArticlesQueryResult.rows;
         
         // TODO: consider changing below to use MAP instead of foreach?
