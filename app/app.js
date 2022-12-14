@@ -3,7 +3,7 @@ const controller = require("../controller/controller.js");
 const app = express();
 
 // Parse JSON by default
-// removed app use express json for now
+app.use(express.json());
 
 // Endpoints
 
@@ -26,4 +26,3 @@ app.use(controller.errors.testNext404);
 
 // Exports
 module.exports = app;
-
