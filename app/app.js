@@ -5,6 +5,7 @@ const app = express();
 // Parse JSON by default
 app.use(express.json());
 
+
 // Endpoints
 
 // Topics
@@ -23,3 +24,4 @@ app.use(controller.errors.testNext404);
 
 // Exports
 module.exports = app;
+
