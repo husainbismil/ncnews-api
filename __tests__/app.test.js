@@ -103,6 +103,16 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         });
 
+        // add in tests for 1) invalid article id, 2) sql injection
+
+        test(`[ 404 ] Responds with 404`, () => {
+
+            return request(app).get(`/api/articles/sdfdefds`).expect(404).then((response) => {
+                expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
+            });
+
+        });
+
 
     });
 

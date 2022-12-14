@@ -1,11 +1,12 @@
 const model = require("../model/model");
+const errors = require("../controller/errors.js");
 
 // /api/topics Endpoints
 const getApiTopics = (request, response) => {
     model.topics.selectTopics().then((selectTopicsResponseObject) => {
         response.status(200).send(selectTopicsResponseObject);
     }).catch((err) => {
-        console.log(err);
+        response.status(404).send(errors.res404);
     });
 };
 
@@ -15,6 +16,8 @@ const getApiArticles = (request, response) => {
 
         response.status(200).send(responseObject);
 
+    }).catch((err) => {
+        response.status(404).send(errors.res404);
     });
 };
 
@@ -27,6 +30,8 @@ const getArticleById = (request, response) => {
         responseObject.article = selectArticleByArticleIdResult.rows[0];
 
         response.status(200).send(responseObject);
+    }).catch((err) => {
+        response.status(404).send(errors.res404);
     });
 
 };
@@ -47,6 +52,8 @@ const getCommentsByArticleId = (request, response) => {
         returnedCommentsArray.forEach(feCommentRemoveArticleId);
         responseObject.comments = returnedCommentsArray;
         response.status(200).send(responseObject);
+    }).catch((err) => {
+        response.status(404).send(errors.res404);
     });
 
 };
@@ -62,12 +69,10 @@ const postCommentToArticle = (request, response) => {
         response.status(201).send(responseObject);
 
     }).catch((err) => {
-        console.log(err);
+        response.status(404).send(errors.res404);
     });
 };
 
-
-const errors = require("../controller/errors.js");
 
 module.exports = {
     errors,
