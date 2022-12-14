@@ -1,48 +1,36 @@
 const db = require("../db/connection.js");
 
 exports.selectTopics = () => {
-    return db.query("SELECT * FROM topics;").then((queryResult) => {
-        return queryResult;
+    return db.query("SELECT * FROM topics;").then((selectTopicsQueryResult) => {
+        const selectTopicsResponseObject = {topics: selectTopicsQueryResult.rows};
+        return selectTopicsResponseObject;
     });
 };
 
 exports.selectArticles = () => {
-    return db.query("SELECT * FROM articles ORDER BY created_at DESC;").then((queryResult) => {
-        return queryResult;
+    const sqlQuery = `SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.created_at, articles.votes, COUNT(comments.*) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.article_id GROUP BY articles.article_id ORDER BY created_at DESC;`
+
+    return db.query(sqlQuery).then((queryResult) => {
+        // Convert values to correct formats
+        queryResult.rows.forEach((element) => {
+            element["comment_count"] = Number(element["comment_count"]);
+        });
+
+        const responseObject = {articles: queryResult.rows};
+        return responseObject;
     });
 };
 
-exports.selectCommentsByArticleId = (articleIdArrayOrNumber, articlesArray) => {
-    // since the article Ids will be fetched from the database, there is probs no need to protect from sql injection here, as the user doesn't provide input to this part of the code.
-    // for each articleId in articleIdArray, build the sql query.
-    // first convert articleIdArray to comma seperated values (csv).
-    let singleArticle = false; 
+exports.selectCommentsByArticleId = (articleId) => {
+    const sqlQueryParameters = [Number(articleId)];
+    const sqlQuery = `SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC;`;
 
-    if (Array.isArray(articleIdArrayOrNumber)) {
-    const articleIdCsv = articleIdArrayOrNumber.toString();
-    const sqlQuery = `SELECT * FROM comments WHERE article_id in (${articleIdCsv}) ORDER BY created_at DESC;`;
-
-
-    return db.query(sqlQuery).then((selectCommentsByArticleIdQueryResult) => {
-        const returnedOutput = [selectCommentsByArticleIdQueryResult, articlesArray];
-        return returnedOutput;
+    return db.query(sqlQuery, sqlQueryParameters).then((selectCommentsByArticleIdQueryResult) => {
+        return selectCommentsByArticleIdQueryResult;
     });
-    } else {
-        // use parameterised queries as this is a user input in this case
-        singleArticle = true;
-        const securedArticleId = Number(articleIdArrayOrNumber);
-        const sqlQueryParameters = [securedArticleId];
-        const sqlQuery = `SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC;`;
-
-        return db.query(sqlQuery, sqlQueryParameters).then((selectCommentsByArticleIdQueryResult) => {
-                return selectCommentsByArticleIdQueryResult;
-        });
-    };
-
 };
 
 exports.selectArticleByArticleId = (articleId) => {
-    // as this involves querying for user input, protection from SQL injection will need to be implemented
     const securedArticleId = Number(articleId);
     
     const sqlQueryParameters = [securedArticleId];
@@ -55,7 +43,6 @@ exports.selectArticleByArticleId = (articleId) => {
 };
 
 exports.insertCommentByArticleId = (articleId, commentObject) => {
-    // as this involves querying for user input, protection from SQL injection will need to be implemented
     // skipping check to see if commentObject is in correct format, assuming i need to just stick to happy path only
     const securedArticleId = Number(articleId);
     const commentAuthor = commentObject.username;
