@@ -32,10 +32,6 @@ exports.getApiArticles = (request, response) => {
     });
 };
 
-// /api/articles/:article_id Endpoints
-exports.getArticleById = (request, response) => {
-
-}
 
 // TODO: find out how error catching is meant to be, repeating .catch here seems not very DRY
     

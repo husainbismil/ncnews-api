@@ -9,7 +9,6 @@ const app = express();
 // Endpoints
 app.get("/api/topics", controller.getApiTopics);
 app.get("/api/articles", controller.getApiArticles);
-app.get("/api/articles/:article_id", controller.getArticleById);
 
 // Error Handling
 // removed until test suite for error handling checks is made
