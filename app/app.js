@@ -6,18 +6,19 @@ const app = express();
 app.use(express.json());
 
 // Endpoints
-/// Topics
+
+// Topics
 app.get("/api/topics", controller.topics.getApiTopics);
 
-/// Articles
+// Articles
 app.get("/api/articles", controller.articles.getApiArticles);
 app.get("/api/articles/:article_id", controller.articles.getArticleById);
 
-/// Comments
+// Comments
 app.get("/api/articles/:article_id/comments", controller.comments.getCommentsByArticleId);
 app.post("/api/articles/:article_id/comments", controller.comments.postCommentToArticle);
 
-/// Users
+// Users
 
 // Error Handling
 app.all('*', controller.errors.fileNotFound);
