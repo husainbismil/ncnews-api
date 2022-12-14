@@ -15,62 +15,14 @@ exports.getApiTopics = (request, response) => {
 // /api/articles Endpoints
 exports.getApiArticles = (request, response) => {
     // TODO: instead of doing this for every articles request, find way to just store comment count in the db and keep it updated, that way theres no need to calculate it each time
-    model.selectArticles().then((selectArticlesQueryResult) => {
-        // queryResult = selected articles
-        // TODO: move this stuff from controller to model, data manipulation is meant to be in the model only
-        const articlesArray = selectArticlesQueryResult.rows;
-        
-        // TODO: consider changing below to use MAP instead of foreach?
-        const buildArticleIdArray = function (articleElement) {
-            articleIdArray.push(articleElement["article_id"]);
-        };
+    model.selectArticles().then((selectArticlesQueryResultArray) => {
 
-        // for each article ID in articlesArray, store ID in its own array called articleIdArray
-        const articleIdArray = [];
-        articlesArray.forEach(buildArticleIdArray);
-
+        const articleIdArray = selectArticlesQueryResultArray[0];
+        const articlesArray = selectArticlesQueryResultArray[1];
         // articleIdArray is now built.
+
         // query comments, get all comments that match those article Ids, store them in an array returnedCommentsArray
-        model.selectCommentsByArticleId(articleIdArray, articlesArray).then((selectCommentsByArticleIdOutput) => {
-            const returnedCommentsArray = selectCommentsByArticleIdOutput[0].rows;
-            const articlesArray = selectCommentsByArticleIdOutput[1];
-
-            const feArticleCountComments = function (articleElement) {
-                const calculateArticleCommentCount = function (commentElement) {
-                    if (commentElement["article_id"] === currentArticleId) {
-                        currentArticleCommentCount++;
-                    };
-                };
-                
-                const currentArticleId = articleElement["article_id"];
-                let currentArticleCommentCount = 0;
-                // for each in returnedCommentsArray, count how many objectElements have an articleId that matches given articleId.
-                returnedCommentsArray.forEach(calculateArticleCommentCount);
-
-                // currentArticleCommentCount is now built.
-                // assuming each articleID is unique, this should work.
-                // for each article, store its comment count in an object (commentcountbyarticleid), where key = article id, keyval = comment count
-                commentCountByArticleId[currentArticleId] = currentArticleCommentCount;
-            };
-
-            const feArticleUpdateCommentCount = function (articleElement, articleArrayIndex) {
-                const currentArticleId = articleElement["article_id"];
-                const commentCount = commentCountByArticleId[currentArticleId];
-                updatedArticlesArray[articleArrayIndex]["comment_count"] = commentCount
-            };
-           
-            // new variable updatedArticlesArray, a clone of articlesArray.
-            const updatedArticlesArray = [...articlesArray];
-
-            // for each article ID in article array, count how many comments it has in returnedCommentsArray, and store the number of comments in anarray formatted like [[articleID, number-of-comments]], called commentCountByArticleId
-            const commentCountByArticleId = {};
-            articlesArray.forEach(feArticleCountComments);
-
-            // commentCountByArticleId array is now built.
-            // for each in updatedArticlesArray, get the number of comments using the currnet articleiD and commentCountByArticleId
-            updatedArticlesArray.forEach(feArticleUpdateCommentCount);
-
-            const responseObject = {articles: updatedArticlesArray};
+        model.selectCommentsByArticleId(articleIdArray, articlesArray).then((responseObject) => {
 
             // respond with the updatedArticlesArray            
             response.status(200).send(responseObject);
