@@ -45,6 +45,6 @@ const selectArticleByArticleId = (articleId) => {
 module.exports = {
     topics: {selectTopics},
     articles: {selectArticles, selectArticleByArticleId}, 
-    comments: {selectCommentsByArticleId, insertCommentByArticleId},
+    comments: {selectCommentsByArticleId},
     users: {}
 };
