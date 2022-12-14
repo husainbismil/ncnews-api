@@ -130,8 +130,28 @@ describe("NCNews-Server Unit Tests", () => {
     });
 
 
+    // Task 7 - POST /api/articles/:article_id/comments
+    describe("7. POST /api/articles/:article_id/comments", () => {
 
+        // should there be a test to see if the user exists? not sure, normally i'd do that but i think im meant to just stick to the happy path probably
 
+        test("Responds with the newly posted comment", () => {
+
+            const newComment = {
+                username: "icellusedkars",
+                body: "blah blah blah blah blah"
+            };
+
+            return request(app).post('/api/articles/1/comments').send(newComment).expect(201).then((response) => {
+                expect(response.body.comment.body).toEqual("blah blah blah blah blah");
+                expect(response.body.comment.author).toEqual("icellusedkars");
+            });
+
+    });
+
+});
+
+        
 
 
 });

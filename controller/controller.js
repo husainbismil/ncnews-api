@@ -114,5 +114,23 @@ exports.getCommentsByArticleId = (request, response) => {
 
 };
 
+// 7. POST /api/articles/:article_id/comments
+exports.postCommentToArticle = (request, response) => {
+    const articleId = request.params["article_id"];
+    const commentObject = request.body;
+
+    model.insertCommentByArticleId(articleId, commentObject).then((insertCommentByArticleIdResult) => {
+        
+        const responseObject = {comment: insertCommentByArticleIdResult.rows[0]};
+        response.status(201).send(responseObject);
+
+    }).catch((err) => {
+        console.log(err);
+    });
+    
+    // response.status(201).send();
+};
+
+
 // TODO: find out how error catching is meant to be, repeating .catch here seems not very DRY
     

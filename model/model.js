@@ -53,3 +53,19 @@ exports.selectArticleByArticleId = (articleId) => {
     });   
 
 };
+
+exports.insertCommentByArticleId = (articleId, commentObject) => {
+    // as this involves querying for user input, protection from SQL injection will need to be implemented
+    // skipping check to see if commentObject is in correct format, assuming i need to just stick to happy path only
+    const securedArticleId = Number(articleId);
+    const commentAuthor = commentObject.username;
+    const commentBody = commentObject.body;
+
+    const sqlQueryParameters = [securedArticleId, commentAuthor, commentBody];
+    const sqlQuery = `INSERT INTO comments (article_id, author, body) VALUES ($1, $2, $3) RETURNING *;`;
+
+    return db.query(sqlQuery, sqlQueryParameters).then((insertCommentByArticleIdResult) => {
+        return insertCommentByArticleIdResult;
+    });   
+
+};
