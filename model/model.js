@@ -1,13 +1,13 @@
 const db = require("../db/connection.js");
 
-exports.selectTopics = () => {
+const selectTopics = () => {
     return db.query("SELECT * FROM topics;").then((selectTopicsQueryResult) => {
         const selectTopicsResponseObject = {topics: selectTopicsQueryResult.rows};
         return selectTopicsResponseObject;
     });
 };
 
-exports.selectArticles = () => {
+const selectArticles = () => {
     const sqlQuery = `SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.created_at, articles.votes, COUNT(comments.*) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.article_id GROUP BY articles.article_id ORDER BY created_at DESC;`
 
     return db.query(sqlQuery).then((queryResult) => {
@@ -21,7 +21,7 @@ exports.selectArticles = () => {
     });
 };
 
-exports.selectCommentsByArticleId = (articleId) => {
+const selectCommentsByArticleId = (articleId) => {
     const sqlQueryParameters = [Number(articleId)];
     const sqlQuery = `SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC;`;
 
@@ -30,7 +30,7 @@ exports.selectCommentsByArticleId = (articleId) => {
     });
 };
 
-exports.selectArticleByArticleId = (articleId) => {
+const selectArticleByArticleId = (articleId) => {
     const securedArticleId = Number(articleId);
     
     const sqlQueryParameters = [securedArticleId];
@@ -42,7 +42,7 @@ exports.selectArticleByArticleId = (articleId) => {
 
 };
 
-exports.insertCommentByArticleId = (articleId, commentObject) => {
+const insertCommentByArticleId = (articleId, commentObject) => {
     // skipping check to see if commentObject is in correct format, assuming i need to just stick to happy path only
     const securedArticleId = Number(articleId);
     const commentAuthor = commentObject.username;
@@ -55,4 +55,12 @@ exports.insertCommentByArticleId = (articleId, commentObject) => {
         return insertCommentByArticleIdResult;
     });   
 
+};
+
+
+module.exports = {
+    topics: {selectTopics},
+    articles: {selectArticles, selectArticleByArticleId}, 
+    comments: {selectCommentsByArticleId, insertCommentByArticleId},
+    users: {}
 };
