@@ -2,19 +2,24 @@ const express = require("express");
 const controller = require("../controller/controller.js");
 const app = express();
 
-
 // Parse JSON by default
-// removed until its in use
+app.use(express.json());
 
 // Endpoints
-app.get("/api/topics", controller.getApiTopics);
-app.get("/api/articles", controller.getApiArticles);
-app.get("/api/articles/:article_id", controller.getArticleById);
+
+// Topics
+app.get("/api/topics", controller.topics.getApiTopics);
+
+// Articles
+app.get("/api/articles", controller.articles.getApiArticles);
+app.get("/api/articles/:article_id", controller.articles.getArticleById);
+
+// Comments
+// Users
 
 // Error Handling
-// removed until test suite for error handling checks is made
+app.all('*', controller.errors.fileNotFound);
+app.use(controller.errors.testNext404);
 
+// Exports
 module.exports = app;
-
-
-// TODO: complete changes in PR 2, then 
