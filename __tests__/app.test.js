@@ -75,6 +75,17 @@ describe(`NCNews-Server Unit Tests`, () => {
 
            
     });
+	
+	// Error Handling
+    describe("Error Handling Tests", () => {
+        // GET METHOD 404 ERROR TEST
+        test("[ 404 ] Responds with a 404 error when an invalid path is specified", () => {
+          return request(app).get("/sdfhdshifsdhfsd").expect(404).then((response) => {
+              expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
+            });
+        });
+        // need 500 internal server error test - find out what to do for that one
+    });
 
     // Task 5 - get api articles articleid
 
@@ -231,21 +242,8 @@ describe(`NCNews-Server Unit Tests`, () => {
         });
 
 
-});
-
-    // Error Handling - added with branch trello_8 along with other changes
-    describe("Error Handling Tests", () => {
-        // GET METHOD 404 ERROR TEST
-        test("[ 404 ] Responds with a 404 error when an invalid path is specified", () => {
-          return request(app).get("/sdfhdshifsdhfsd").expect(404).then((response) => {
-              expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
-            });
-        });
-        // need 500 internal server error test - find out what to do for that one
-      });
-
-
-        
+    });     
+       
 
 // End Unit Tests
 });
