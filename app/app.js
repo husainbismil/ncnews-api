@@ -3,7 +3,7 @@ const controller = require("../controller/controller.js");
 const app = express();
 
 // Parse JSON by default
-app.use(express.json());
+// removed app use express json for now
 
 // Endpoints
 app.get("/api/topics", controller.getApiTopics);
@@ -18,6 +18,3 @@ app.post("/api/articles/:article_id/comments", controller.postCommentToArticle);
 // removed until test suite for error handling checks is made
 
 module.exports = app;
-
-
-// TODO: complete changes in PR 2, then 
