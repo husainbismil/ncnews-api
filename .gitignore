@@ -1,2 +1,4 @@
 node_modules
+backups.txt
+notes.txt
 .env.*
