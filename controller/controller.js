@@ -5,9 +5,8 @@ const model = require("../model/model");
 
 // /api/topics Endpoints
 exports.getApiTopics = (request, response) => {
-    model.selectTopics().then((selectTopicsQueryResult) => {
-        const responseObject = {topics: selectTopicsQueryResult.rows};
-        response.status(200).send(responseObject);
+    model.selectTopics().then((selectTopicsResponseObject) => {
+        response.status(200).send(selectTopicsResponseObject);
     }).catch((err) => {
         console.log(err);
     });
@@ -15,7 +14,7 @@ exports.getApiTopics = (request, response) => {
 
 // /api/articles Endpoints
 exports.getApiArticles = (request, response) => {
-    // TODO: instead of doing this for every articles request, find way to just store comment count in the db and keep it updated, that way theres no need to calculate it
+    // TODO: instead of doing this for every articles request, find way to just store comment count in the db and keep it updated, that way theres no need to calculate it each time
     model.selectArticles().then((selectArticlesQueryResult) => {
         // queryResult = selected articles
         const articlesArray = selectArticlesQueryResult.rows;
