@@ -5,6 +5,7 @@ const app = express();
 // Parse JSON by default
 app.use(express.json());
 
+
 // Endpoints
 
 // Topics
