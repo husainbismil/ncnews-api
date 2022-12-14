@@ -1,8 +1,8 @@
 const model = require("../model/model");
 
 // /api/topics Endpoints
-exports.getApiTopics = (request, response) => {
-    model.selectTopics().then((selectTopicsResponseObject) => {
+const getApiTopics = (request, response) => {
+    model.topics.selectTopics().then((selectTopicsResponseObject) => {
         response.status(200).send(selectTopicsResponseObject);
     }).catch((err) => {
         console.log(err);
@@ -10,8 +10,8 @@ exports.getApiTopics = (request, response) => {
 };
 
 // /api/articles Endpoints
-exports.getApiArticles = (request, response) => {
-    model.selectArticles().then((responseObject) => {
+const getApiArticles = (request, response) => {
+    model.articles.selectArticles().then((responseObject) => {
 
         response.status(200).send(responseObject);
 
@@ -19,10 +19,10 @@ exports.getApiArticles = (request, response) => {
 };
 
 // /api/articles/:article_id Endpoints
-exports.getArticleById = (request, response) => {
+const getArticleById = (request, response) => {
     const articleId = request.params["article_id"];
 
-    model.selectArticleByArticleId(articleId).then((selectArticleByArticleIdResult) => {
+    model.articles.selectArticleByArticleId(articleId).then((selectArticleByArticleIdResult) => {
         const responseObject = {};
         responseObject.article = selectArticleByArticleIdResult.rows[0];
 
@@ -32,10 +32,10 @@ exports.getArticleById = (request, response) => {
 };
 
 // 6. GET /api/articles/:article_id/comments
-exports.getCommentsByArticleId = (request, response) => {
+const getCommentsByArticleId = (request, response) => {
     const articleId = request.params["article_id"];
 
-    model.selectCommentsByArticleId(articleId).then((selectCommentsByArticleIdOutput) => {
+    model.comments.selectCommentsByArticleId(articleId).then((selectCommentsByArticleIdOutput) => {
         const feCommentRemoveArticleId = function (element, index) {
             delete returnedCommentsArray[index]["article_id"];
         };
@@ -52,11 +52,11 @@ exports.getCommentsByArticleId = (request, response) => {
 };
 
 // 7. POST /api/articles/:article_id/comments
-exports.postCommentToArticle = (request, response) => {
+const postCommentToArticle = (request, response) => {
     const articleId = request.params["article_id"];
     const commentObject = request.body;
 
-    model.insertCommentByArticleId(articleId, commentObject).then((insertCommentByArticleIdResult) => {
+    model.comments.insertCommentByArticleId(articleId, commentObject).then((insertCommentByArticleIdResult) => {
         
         const responseObject = {comment: insertCommentByArticleIdResult.rows[0]};
         response.status(201).send(responseObject);
@@ -67,5 +67,13 @@ exports.postCommentToArticle = (request, response) => {
 };
 
 
-// TODO: find out how error catching is meant to be, repeating .catch here seems not very DRY
+const errors = require("../controller/errors.js");
+
+module.exports = {
+    errors,
+    topics: { getApiTopics },
+    articles: { getApiArticles, getArticleById }, 
+    comments: { getCommentsByArticleId, postCommentToArticle },
+    users: {}
+};
     
