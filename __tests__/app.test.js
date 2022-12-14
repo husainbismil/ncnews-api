@@ -60,8 +60,11 @@ describe("NCNews-Server Unit Tests", () => {
         test("Responds with an array of objects, where the objects are sorted by Date using the 'created_at' property in Descending order (latest dates first)", () => {
 
             return request(app).get("/api/articles").expect(200).then((response) => {
-                const articlesArray = response.body.articles;             
-                expect(Date.parse(articlesArray[0]["created_at"]) > Date.parse(articlesArray[1]["created_at"])).toBe(true);
+                const articlesArray = response.body.articles;   
+                articlesArray.forEach((e, index) => {
+                    if (index < articlesArray.length - 1) {
+                    expect(Date.parse(articlesArray[index]["created_at"]) > Date.parse(articlesArray[index + 1]["created_at"])).toBe(true);
+                }});
             });
 
         });
