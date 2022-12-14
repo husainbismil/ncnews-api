@@ -6,6 +6,7 @@ const app = express();
 // Parse JSON by default
 // removed until its in use
 
+
 // Endpoints
 app.get("/api/topics", controller.getApiTopics);
 app.get("/api/articles", controller.getApiArticles);
@@ -17,4 +18,3 @@ app.get("/api/articles/:article_id", controller.getArticleById);
 module.exports = app;
 
 
-// TODO: complete changes in PR 2, then 
