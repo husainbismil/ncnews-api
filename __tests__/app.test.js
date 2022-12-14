@@ -31,8 +31,7 @@ describe(`NCNews-Server Unit Tests`, () => {
                 });
             });
         });
-       
-    
+   
     });
 
     describe(`GET /api/articles/`, () => {
@@ -106,9 +105,25 @@ describe(`NCNews-Server Unit Tests`, () => {
         // add in tests for 1) invalid article id, 2) article id not specified, 3) sql injection
         // for each, add in tests for: 1) invalid parameters, 2) undefined parameters, 3) sql injection
 
-        test(`[ 404 ] Responds with 404`, () => {
+        test(`[ 404 ] Responds with an error when passed invalid parameters`, () => {
 
             return request(app).get(`/api/articles/sdfdefds`).expect(404).then((response) => {
+                expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
+            });
+
+        });
+
+        test(`[ 404 ] Responds with an error when passed an SQL injection test 1`, () => {
+
+            return request(app).get(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles`).expect(404).then((response) => {
+                expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
+            });
+
+        });
+
+        test(`[ 404 ] Responds with an error when passed an SQL injection test 2`, () => {
+
+            return request(app).get(`/api/articles/1; DROP TABLE articles`).expect(404).then((response) => {
                 expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
             });
 
@@ -140,6 +155,30 @@ describe(`NCNews-Server Unit Tests`, () => {
             });
         });
 
+        test(`[ 404 ] Responds with an error when passed invalid parameters`, () => {
+
+            return request(app).get(`/api/articles/sdfdefds/comments`).expect(404).then((response) => {
+                expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
+            });
+
+        });
+
+        test(`[ 404 ] Responds with an error when passed an SQL injection test 1`, () => {
+
+            return request(app).get(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles/comments`).expect(404).then((response) => {
+                expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
+            });
+
+        });
+
+        test(`[ 404 ] Responds with an error when passed an SQL injection test 2`, () => {
+
+            return request(app).get(`/api/articles/1; DROP TABLE articles/comments`).expect(404).then((response) => {
+                expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
+            });
+
+        });
+
  
     });
 
@@ -161,7 +200,33 @@ describe(`NCNews-Server Unit Tests`, () => {
                 expect(response.body.comment.author).toEqual(`icellusedkars`);
             });
 
-    });
+        });
+
+        test(`[ 404 ] Responds with an error when passed invalid parameters`, () => {
+
+            return request(app).post(`/api/articles/sdfdefds/comments`).expect(404).then((response) => {
+                expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
+            });
+
+        });
+
+        test(`[ 404 ] Responds with an error when passed an SQL injection test 1`, () => {
+
+            return request(app).post(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles/comments`).expect(404).then((response) => {
+                expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
+            });
+
+        });
+
+        test(`[ 404 ] Responds with an error when passed an SQL injection test 2`, () => {
+
+            return request(app).post(`/api/articles/1; DROP TABLE articles/comments`).expect(404).then((response) => {
+                expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
+            });
+
+        });
+
+
 });
 
     // Error Handling - added with branch trello_8 along with other changes
