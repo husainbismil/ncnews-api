@@ -37,7 +37,7 @@ const getArticleById = (request, response) => {
 };
 
 // 6. GET /api/articles/:article_id/comments
-const getCommentsByArticleId = (request, response) => {
+const getCommentsByArticleId = (request, response, next) => {
     const articleId = request.params["article_id"];
 
     model.comments.selectCommentsByArticleId(articleId).then((selectCommentsByArticleIdOutput) => {
@@ -53,13 +53,13 @@ const getCommentsByArticleId = (request, response) => {
         responseObject.comments = returnedCommentsArray;
         response.status(200).send(responseObject);
     }).catch((err) => {
-        response.status(404).send(errors.res404);
-    });
+        next(err);
+      });
 
 };
 
 // 7. POST /api/articles/:article_id/comments
-const postCommentToArticle = (request, response) => {
+const postCommentToArticle = (request, response, next) => {
     const articleId = request.params["article_id"];
     const commentObject = request.body;
 
@@ -69,8 +69,8 @@ const postCommentToArticle = (request, response) => {
         response.status(201).send(responseObject);
 
     }).catch((err) => {
-        response.status(404).send(errors.res404);
-    });
+        next(err);
+      });
 };
 
 

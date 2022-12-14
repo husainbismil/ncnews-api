@@ -21,6 +21,8 @@ describe(`NCNews-Server Unit Tests`, () => {
 
             return request(app).get(`/api/topics`).expect(200).then((response) => {
                 const topics = response.body.topics;
+                // will be using test data always
+                expect(topics).toHaveLength(3);
 
                 topics.forEach((topicObject) => {
                     expect(topicObject).toEqual(
@@ -40,6 +42,7 @@ describe(`NCNews-Server Unit Tests`, () => {
 
             return request(app).get(`/api/articles`).expect(200).then((response) => {
                 const articlesArray = response.body.articles;
+                expect(articlesArray).toHaveLength(12);
 
                 articlesArray.forEach((articleObject) => {
                     expect(articleObject).toEqual(
@@ -60,6 +63,8 @@ describe(`NCNews-Server Unit Tests`, () => {
 
             return request(app).get(`/api/articles`).expect(200).then((response) => {
                 const articlesArray = response.body.articles;   
+                expect(articlesArray).toHaveLength(12);
+
                 articlesArray.forEach((e, index) => {
                     if (index < articlesArray.length - 1) {
                     expect(Date.parse(articlesArray[index][`created_at`]) > Date.parse(articlesArray[index + 1][`created_at`])).toBe(true);
@@ -139,6 +144,8 @@ describe(`NCNews-Server Unit Tests`, () => {
                 const comments = response.body.comments;
 
                 expect(comments).toBeInstanceOf(Array);
+                expect(comments).toHaveLength(11);
+
                 comments.forEach((commentObject) => {
                     expect(commentObject).toEqual(
                         expect.objectContaining({
