@@ -102,9 +102,6 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         });
 
-        // add in tests for 1) invalid article id, 2) article id not specified, 3) sql injection
-        // for each, add in tests for: 1) invalid parameters, 2) undefined parameters, 3) sql injection
-
         test(`[ 404 ] Responds with an error when passed invalid parameters`, () => {
 
             return request(app).get(`/api/articles/sdfdefds`).expect(404).then((response) => {
