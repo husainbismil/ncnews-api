@@ -127,8 +127,6 @@ exports.postCommentToArticle = (request, response) => {
     }).catch((err) => {
         console.log(err);
     });
-    
-    // response.status(201).send();
 };
 
 
