@@ -20,6 +20,7 @@ app.get("/api/articles/:article_id/comments", controller.comments.getCommentsByA
 app.post("/api/articles/:article_id/comments", controller.comments.postCommentToArticle);
 
 // Users
+app.get("/api/users", controller.users.getUsers);
 
 // Error Handling
 app.all('*', controller.errors.fileNotFound);

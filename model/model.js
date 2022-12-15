@@ -68,8 +68,20 @@ const updateArticleVotesByArticleId = (articleId, incVotesObject) => {
         return updateArticleVotesByArticleIdResult;
     });   
 
+};
+
+const selectUsers = () => {
+    const sqlQuery = `SELECT * FROM users ORDER BY username ASC;`;
+
+    return db.query(sqlQuery).then((selectUsersResult) => {
+        return selectUsersResult;
+    });   
 
 }
+
+
+
+
 
 // Exports
 module.exports = {
@@ -86,6 +98,6 @@ module.exports = {
         insertCommentByArticleId
     },
     users: {
-
+        selectUsers
     }
 };

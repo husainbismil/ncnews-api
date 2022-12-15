@@ -396,7 +396,27 @@ describe(`NCNews-Server Unit Tests`, () => {
 
     }); 
 
-    // Task 9 - 
+    // Task 9 - GET /api/users
+    describe(`GET /api/users/`, () => {
+
+        test(`[ 200 ] Responds with an array of objects, where the objects have the following 3 properties: username, name, avatar_url`, () => {
+
+            return request(app).get(`/api/users`).expect(200).then((response) => {
+                const usersArray = response.body.users;
+                expect(usersArray).toHaveLength(4);
+
+                usersArray.forEach((userObject) => {
+                    expect(userObject).toEqual(
+                        expect.objectContaining({
+                            username: expect.any(String),
+                            name: expect.any(String),
+                            avatar_url: expect.any(String)
+                    }));
+                });
+            });
+        });
+           
+    });
        
 
 // End Unit Tests

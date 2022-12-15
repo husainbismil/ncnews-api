@@ -83,11 +83,21 @@ const patchArticleVotesByArticleId = (request, response, next) => {
         response.status(201).send(responseObject);
 
     }).catch((err) => {
-        console.log(err)
         next(err);
     });
 
 };
+
+// 9. GET /api/users
+const getUsers = (request, response, next) => {
+    model.users.selectUsers().then((selectUsersResult) => {
+        const responseObject = {users: selectUsersResult.rows};
+        response.status(200).send(responseObject);
+    }).catch((err) => {
+        next(err);
+    });
+
+}
 
 // Exports
 module.exports = {
@@ -104,6 +114,8 @@ module.exports = {
         getCommentsByArticleId, 
         postCommentToArticle 
     },
-    users: {}
+    users: {
+        getUsers
+    }
 };
     
