@@ -1,16 +1,30 @@
-// c = controller, m = model, v = view, db = database
 const model = require("../model/model");
-
-// TODO: find out how error catching is meant to be, repeating .catch here seems not very DRY
+const errors = require("../controller/errors.js");
 
 // /api/topics Endpoints
-exports.getApiTopics = (request, response) => {
-    model.selectTopics().then((selectTopicsResponseObject) => {
+const getApiTopics = (request, response) => {
+    model.topics.selectTopics().then((selectTopicsResponseObject) => {
         response.status(200).send(selectTopicsResponseObject);
     }).catch((err) => {
-        console.log(err);
+        next(err);
     });
 };
 
-// TODO: find out how error catching is meant to be, repeating .catch here seems not very DRY
-    
+// /api/articles Endpoints
+const getApiArticles = (request, response) => {
+    model.articles.selectArticles().then((responseObject) => {
+
+        response.status(200).send(responseObject);
+
+    }).catch((err) => {
+        next(err);
+    });
+};
+
+module.exports = {
+    errors,
+    topics: { getApiTopics },
+    articles: { getApiArticles }, 
+    comments: {},
+    users: {}
+};

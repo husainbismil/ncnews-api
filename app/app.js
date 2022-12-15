@@ -1,17 +1,22 @@
 const express = require("express");
-const c = require("../controller/controller.js");
+const controller = require("../controller/controller.js");
 const app = express();
 
-
-// Parse JSON by default
-// removed app use express json for now
-
 // Endpoints
-app.get("/api/topics", c.getApiTopics);
+
+// Topics
+app.get("/api/topics", controller.topics.getApiTopics);
+
+// Articles
+app.get("/api/articles", controller.articles.getApiArticles);
+
+
+// Comments
+// Users
 
 // Error Handling
+app.all('*', controller.errors.fileNotFound);
+app.use(controller.errors.testNext404);
 
-// removed 404 and 500 responses from here as tests have not been made yet. make tests to check error handling prior to writing the error handling here
-
-
+// Exports
 module.exports = app;
