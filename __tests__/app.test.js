@@ -90,7 +90,7 @@ describe(`NCNews-Server Unit Tests`, () => {
     // Task 5 - get api articles articleid
     // and TASK 11: add in comment count
 
-    describe(`GET /api/articles/:article_id`, () => {
+    describe(`GET /api/articles/:article_id + comment count`, () => {
 
         test(`[ 200 ] Responds with an object with key article and keyval of an object with the following 7 properties: author, title, article_id, topic, body, created_at, votes`, () => {
 
@@ -110,6 +110,8 @@ describe(`NCNews-Server Unit Tests`, () => {
                     }));
             });
         });
+
+        // TODO: add test to check if comment count is correct for task 11
 
         test(`[ 200 ] Responds with the correct article object with correct articleID`, () => {
 
