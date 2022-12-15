@@ -54,8 +54,7 @@ const getCommentsByArticleId = (request, response, next) => {
         response.status(200).send(responseObject);
     }).catch((err) => {
         next(err);
-      });
-
+    });
 };
 
 // 7. POST /api/articles/:article_id/comments
@@ -70,15 +69,40 @@ const postCommentToArticle = (request, response, next) => {
 
     }).catch((err) => {
         next(err);
-      });
+    });
 };
 
+// 8. PATCH /api/articles/:article_id
+const modifyArticleVotesByArticleId = (request, response, next) => {
+    const articleId = request.params["article_id"];
+    const incVotesObject = request.body;
+    
+    model.articles.updateArticleVotesByArticleId(articleId, incVotesObject).then((updateArticleVotesByArticleIdResult) => {
+        const updatedArticle = updateArticleVotesByArticleIdResult.rows[0];
+        const responseObject = {article: updatedArticle};
+        response.status(201).send(responseObject);
 
+    }).catch((err) => {
+        next(err);
+    });
+
+};
+
+// Exports
 module.exports = {
     errors,
-    topics: { getApiTopics },
-    articles: { getApiArticles, getArticleById }, 
-    comments: { getCommentsByArticleId, postCommentToArticle },
+    topics: { 
+        getApiTopics 
+    },
+    articles: { 
+        getApiArticles, 
+        getArticleById, 
+        modifyArticleVotesByArticleId 
+    }, 
+    comments: { 
+        getCommentsByArticleId, 
+        postCommentToArticle 
+    },
     users: {}
 };
     

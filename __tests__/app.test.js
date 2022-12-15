@@ -217,7 +217,7 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         });
 
-        test(`[ 404 ] Responds with an error when passed invalid parameters`, () => {
+        test(`[ 404 ] Responds with an error when passed invalid URL parameters`, () => {
 
             return request(app).post(`/api/articles/sdfdefds/comments`).expect(404).then((response) => {
                 expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
@@ -225,17 +225,72 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         });
 
-        test(`[ 404 ] Responds with an error when passed an SQL injection test 1`, () => {
+        test(`[ 404 ] Responds with an error when passed an object without the required keys`, () => {
 
-            return request(app).post(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles/comments`).expect(404).then((response) => {
+            const newComment = {
+                wat: "k",
+                k: "k"
+            };
+
+            return request(app).post('/api/articles/1/comments').send(newComment).expect(404).then((response) => {
                 expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
             });
 
         });
 
-        test(`[ 404 ] Responds with an error when passed an SQL injection test 2`, () => {
+        test(`[ 404 ] Responds with an error when passed an invalid username`, () => {
 
-            return request(app).post(`/api/articles/1; DROP TABLE articles/comments`).expect(404).then((response) => {
+            const newComment = {
+                username: 545435345,
+                body: "k"
+            };
+
+            return request(app).post('/api/articles/1/comments').send(newComment).expect(404).then((response) => {
+                expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
+            });
+
+
+        });
+
+        test(`[ 404 ] Responds with an error when passed an invalid body of the wrong type`, () => {
+
+            const newComment = {
+                username: "k",
+                body: 545435345
+            };
+
+            return request(app).post('/api/articles/1/comments').send(newComment).expect(404).then((response) => {
+                expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
+            });
+
+
+        });
+
+        test(`[ 404 ] Responds with an error when passed an SQL injection in the JSON object`, () => {
+
+            const newComment = {
+                username: `icellusedkars; DROP TABLE articles;`,
+                body: `blah; DROP TABLE articles;`
+            };
+
+            return request(app).post('/api/articles/1/comments').send(newComment).expect(404).then((response) => {
+                expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
+            });
+
+
+        });
+
+        test(`[ 404 ] Responds with an error when passed an SQL injection in URL parameters, test 1`, () => {
+            // %2Fapi%2Farticles%2F1%3B+DROP+TABLE+articles%3B%2Fcomments
+            return request(app).post(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles;/comments`).expect(404).then((response) => {
+                expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
+            });
+
+        });
+
+        test(`[ 404 ] Responds with an error when passed an SQL injection in URL parameters, test 2`, () => {
+
+            return request(app).post(`/api/articles/1; DROP TABLE articles;/comments`).expect(404).then((response) => {
                 expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
             });
 
@@ -243,6 +298,15 @@ describe(`NCNews-Server Unit Tests`, () => {
 
 
     });     
+
+    // Task 8 - PATCH /api/articles/:article_id
+    describe(`PATCH /api/articles/:article_id`, () => {
+
+         test(`[ 201 ] Responds with the updated article with correctly adjusted vote count`, () => {
+
+        }); 
+
+    }); 
        
 
 // End Unit Tests
