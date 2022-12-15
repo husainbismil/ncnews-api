@@ -1,6 +1,0 @@
-pull requests:
-
-3 get api topics: https://github.com/husainbismil/ncnews-server/pull/2
-4 get api articles: https://github.com/husainbismil/ncnews-server/pull/3
-
-

@@ -3,8 +3,6 @@ const controller = require("../controller/controller.js");
 const app = express();
 
 // Parse JSON by default
-app.use(express.json());
-
 
 // Endpoints
 
