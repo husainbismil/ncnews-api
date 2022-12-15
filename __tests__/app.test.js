@@ -313,7 +313,7 @@ describe(`NCNews-Server Unit Tests`, () => {
             const votesObject = { inc_votes : 2 };
 
             return request(app).patch('/api/articles/1').send(votesObject).expect(201).then((response) => {
-                console.log(response.body.article)
+                
                 expect(response.body.article["article_id"]).toEqual(1);
                 expect(response.body.article.votes).toEqual(102);
             });
