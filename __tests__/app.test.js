@@ -81,7 +81,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         // GET METHOD 404 ERROR TEST
         test("[ 404 ] Responds with a 404 error when an invalid path is specified", () => {
           return request(app).get("/sdfhdshifsdhfsd").expect(404).then((response) => {
-              expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
+              expect(response.body).toEqual({ error: "Error 404 File Not Found" });
             });
         });
         // need 500 internal server error test - find out what to do for that one
