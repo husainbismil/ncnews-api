@@ -2,13 +2,12 @@ const model = require("../model/model");
 const errors = require("../controller/errors.js");
 
 // /api/topics Endpoints
-const getApiTopics = (request, response) => {
+const getApiTopics = (request, response, next) => {
     model.topics.selectTopics().then((selectTopicsResponseObject) => {
         response.status(200).send(selectTopicsResponseObject);
     }).catch((err) => {
         next(err);
     });
-
 };
 
 // /api/articles Endpoints + Task 10
@@ -43,22 +42,14 @@ const getArticleById = (request, response, next) => {
 const getCommentsByArticleId = (request, response, next) => {
     const articleId = request.params["article_id"];
 
-    model.comments.selectCommentsByArticleId(articleId).then((selectCommentsByArticleIdOutput) => {
-        const feCommentRemoveArticleId = function (element, index) {
-            delete returnedCommentsArray[index]["article_id"];
-        };
+    model.comments.selectCommentsByArticleId(articleId).then((responseObject) => {
 
-        const responseObject = {};
-        const returnedCommentsArray = selectCommentsByArticleIdOutput.rows;
-
-        // for each comment, remove article_id before responding
-        returnedCommentsArray.forEach(feCommentRemoveArticleId);
-        responseObject.comments = returnedCommentsArray;
-        // console.log(responseObject)
+   
         response.status(200).send(responseObject);
     }).catch((err) => {
         next(err);
-    });
+      });
+
 };
 
 // 7. POST /api/articles/:article_id/comments
@@ -66,14 +57,13 @@ const postCommentToArticle = (request, response, next) => {
     const articleId = request.params["article_id"];
     const commentObject = request.body;
 
-    model.comments.insertCommentByArticleId(articleId, commentObject).then((insertCommentByArticleIdResult) => {
+    model.comments.insertCommentByArticleId(articleId, commentObject).then((responseObject) => {
         
-        const responseObject = {comment: insertCommentByArticleIdResult.rows[0]};
         response.status(201).send(responseObject);
 
     }).catch((err) => {
         next(err);
-    });
+      });
 };
 
 // 8. PATCH /api/articles/:article_id
@@ -87,6 +77,7 @@ const patchArticleVotesByArticleId = (request, response, next) => {
         response.status(201).send(responseObject);
 
     }).catch((err) => {
+        console.log(err)
         next(err);
     });
 

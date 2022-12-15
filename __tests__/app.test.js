@@ -75,8 +75,8 @@ describe(`NCNews-Server Unit Tests`, () => {
 
            
     });
-	
-	// Error Handling
+
+    // Error Handling
     describe("Error Handling Tests", () => {
         // GET METHOD 404 ERROR TEST
         test("[ 404 ] Responds with a 404 error when an invalid path is specified", () => {
@@ -172,26 +172,37 @@ describe(`NCNews-Server Unit Tests`, () => {
             });
         });
 
-        test(`[ 404 ] Responds with an error when passed invalid parameters`, () => {
+        test(`[ 200 ] Valid ID, article exists, but no comments responds with no content`, () => {
 
-            return request(app).get(`/api/articles/sdfdefds/comments`).expect(404).then((response) => {
+            //  TODO: this needs to be changed, behaviour needs to return an empty array in this case.
+
+                return request(app).get(`/api/articles/37/comments`).expect(404).then((response) => {
+                    expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+                });
+
+        });
+
+        test(`[ 404 ] Responds with an error when passed a non existent ID`, () => {
+
+            return request(app).get(`/api/articles/999999/comments`).expect(404).then((response) => {
                 expect(response.body).toEqual({ error: "Error 404! File Not Found" });
             });
 
         });
 
-        test(`[ 404 ] Responds with an error when passed an SQL injection test 1`, () => {
+        test(`[ 400 ] Responds with an error when passed invalid parameters`, () => {
 
-            return request(app).get(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles/comments`).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+            return request(app).get(`/api/articles/sdfdefds/comments`).expect(400).then((response) => {
+                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
             });
 
         });
 
-        test(`[ 404 ] Responds with an error when passed an SQL injection test 2`, () => {
+        
+        test(`[ 400 ] Responds with an error when passed an SQL injection test 2`, () => {
 
-            return request(app).get(`/api/articles/1; DROP TABLE articles/comments`).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+            return request(app).get(`/api/articles/1; DROP TABLE articles/comments`).expect(400).then((response) => {
+                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
             });
 
         });
@@ -200,10 +211,8 @@ describe(`NCNews-Server Unit Tests`, () => {
     });
 
 
-    // Task 7 - POST /api/articles/:article_id/comments
-    describe(`POST /api/articles/:article_id/comments`, () => {
-
-        // should there be a test to see if the user exists? not sure, normally i'd do that but i think im meant to just stick to the happy path probably
+     // Task 7 - POST /api/articles/:article_id/comments
+     describe(`POST /api/articles/:article_id/comments`, () => {
 
         const defaultComment = {
             username: `icellusedkars`,
@@ -224,87 +233,79 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         });
 
-        test(`[ 404 ] Responds with an error when passed invalid URL parameters`, () => {
+        test(`[ 400 ] Responds with an error when passed invalid URL parameters`, () => {
 
-            return request(app).post(`/api/articles/sdfdefds/comments`).send(defaultComment).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+            return request(app).post(`/api/articles/sdfdefds/comments`).send(defaultComment).expect(400).then((response) => {
+                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
             });
 
         });
 
-        test(`[ 404 ] Responds with an error when passed an object without the required keys`, () => {
+        test(`[ 400 ] Responds with an error when username does not exist`, () => {
+
+            const newComment = {
+                username: `icellusedkdfsfdsfdsfsdars`,
+                body: `blah blah blah blah blah`
+            };
+
+            return request(app).post('/api/articles/1/comments').send(newComment).expect(400).then((response) => {
+                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+                //expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+            });
+
+        });
+
+        test(`[ 400 ] Responds with an error when passed an object without the required keys`, () => {
 
             const newComment = {
                 wat: "k",
                 k: "k"
             };
 
-            return request(app).post('/api/articles/1/comments').send(newComment).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+            return request(app).post('/api/articles/1/comments').send(newComment).expect(400).then((response) => {
+                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
             });
 
         });
 
-        test(`[ 404 ] Responds with an error when passed an invalid username`, () => {
+        test(`[ 400 ] Responds with an error when passed an invalid username`, () => {
 
             const newComment = {
                 username: 545435345,
                 body: "k"
             };
 
-            return request(app).post('/api/articles/1/comments').send(newComment).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+            return request(app).post('/api/articles/1/comments').send(newComment).expect(400).then((response) => {
+                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
             });
 
 
         });
 
-        test(`[ 404 ] Responds with an error when passed an invalid body of the wrong type`, () => {
-
-            const newComment = {
-                username: "k",
-                body: 545435345
-            };
-
-            return request(app).post('/api/articles/1/comments').send(newComment).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
-            });
-
-
-        });
-
-        test(`[ 404 ] Responds with an error when passed an SQL injection in the JSON object`, () => {
+        test(`[ 400 ] Responds with an error when passed an SQL injection in the JSON object`, () => {
 
             const newComment = {
                 username: `icellusedkars; DROP TABLE articles;`,
                 body: `blah; DROP TABLE articles;`
             };
 
-            return request(app).post('/api/articles/1/comments').send(newComment).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+            return request(app).post('/api/articles/1/comments').send(newComment).expect(400).then((response) => {
+                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
             });
 
 
         });
 
-        test(`[ 404 ] Responds with an error when passed an SQL injection in URL parameters, test 1`, () => {
-            // %2Fapi%2Farticles%2F1%3B+DROP+TABLE+articles%3B%2Fcomments
-            return request(app).post(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles;/comments`).send(defaultComment).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
-            });
+        test(`[ 400 ] Responds with an error when passed an SQL injection in URL parameters`, () => {
 
-        });
-
-        test(`[ 404 ] Responds with an error when passed an SQL injection in URL parameters, test 2`, () => {
-
-            return request(app).post(`/api/articles/1; DROP TABLE articles;/comments`).send(defaultComment).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+            return request(app).post(`/api/articles/1; DROP TABLE articles;/comments`).send(defaultComment).expect(400).then((response) => {
+                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
             });
 
         });
 
 
-    });     
+    });         
 
     // Task 8 - PATCH /api/articles/:article_id
     describe(`PATCH /api/articles/:article_id`, () => {
@@ -333,92 +334,63 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         });
 
-        test(`[ 404 ] Responds with an error when passed invalid URL parameters`, () => {
+        test(`[ 400 ] Responds with an error when passed invalid URL parameters`, () => {
 
-            return request(app).patch('/api/articles/fddfggdrtd').send(defaultVotesObject).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+            return request(app).patch('/api/articles/fddfggdrtd').send(defaultVotesObject).expect(400).then((response) => {
+                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
             });
 
         });
 
-        test(`[ 404 ] Responds with an error when passed an object without the required keys`, () => {
+        test(`[ 400 ] Responds with an error when passed an object without the required keys`, () => {
 
             const votesObject = {
                 wat: "k",
                 k: "k"
             };
 
-            return request(app).post('/api/articles/1/comments').send(votesObject).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+            return request(app).post('/api/articles/1/comments').send(votesObject).expect(400).then((response) => {
+                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
             });
 
         });
 
-        test(`[ 404 ] Responds with an error when passed an invalid vote of the wrong type`, () => {
+        test(`[ 400 ] Responds with an error when passed an invalid vote of the wrong type`, () => {
 
             const votesObject = {
                 inc_votes: `dksfsdjlfds`
             };
 
-            return request(app).post('/api/articles/1/comments').send(votesObject).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+            return request(app).post('/api/articles/1/comments').send(votesObject).expect(400).then((response) => {
+                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
             });
 
 
         });
 
-        test(`[ 404 ] Responds with an error when passed an SQL injection in the votes property`, () => {
+        test(`[ 400 ] Responds with an error when passed an SQL injection in the votes property`, () => {
 
             const votesObject = {
                 inc_votes: `1; DROP TABLE articles;`
             };
 
-            return request(app).post('/api/articles/1/comments').send(votesObject).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+            return request(app).post('/api/articles/1/comments').send(votesObject).expect(400).then((response) => {
+                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
             });
 
 
         });
 
-        test(`[ 404 ] Responds with an error when passed an SQL injection in URL parameters, test 1`, () => {
-            // %2Fapi%2Farticles%2F1%3B+DROP+TABLE+articles%3B%2Fcomments
-            return request(app).post(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles;/comments`).send(defaultVotesObject).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
-            });
+        
+        test(`[ 400 ] Responds with an error when passed an SQL injection in URL parameters, test 2`, () => {
 
-        });
-
-        test(`[ 404 ] Responds with an error when passed an SQL injection in URL parameters, test 2`, () => {
-
-            return request(app).post(`/api/articles/1; DROP TABLE articles;/comments`).send(defaultVotesObject).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+            return request(app).post(`/api/articles/1; DROP TABLE articles;/comments`).send(defaultVotesObject).expect(400).then((response) => {
+                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
             });
 
         });
 
     }); 
-
-    // Task 9 - GET /api/users
-    describe(`GET /api/users/`, () => {
-
-        test(`[ 200 ] Responds with an array of objects, where the objects have the following 3 properties: username, name, avatar_url`, () => {
-
-            return request(app).get(`/api/users`).expect(200).then((response) => {
-                const usersArray = response.body.users;
-                expect(usersArray).toHaveLength(4);
-
-                usersArray.forEach((userObject) => {
-                    expect(userObject).toEqual(
-                        expect.objectContaining({
-                            username: expect.any(String),
-                            name: expect.any(String),
-                            avatar_url: expect.any(String)
-                    }));
-                });
-            });
-        });
-           
-    });
        
 
 // End Unit Tests
