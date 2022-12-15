@@ -1,5 +1,5 @@
 ## This pull request needs re-reviewing after changes were made: 
-Task 4, Get Article: https://github.com/husainbismil/ncnews-server/pull/3
+Task 4, Get Articles: https://github.com/husainbismil/ncnews-server/pull/3
 
 ## These pull requests need reviewing for the first time: 
 Task 5, Get Article By Id: https://github.com/husainbismil/ncnews-server/pull/4
@@ -13,6 +13,9 @@ Task 7, Post Comment By Article Id: https://github.com/husainbismil/ncnews-serve
 
 Task 8, Patch Article Votes by Article Id: https://github.com/husainbismil/ncnews-server/pull/7
 - APP.TEST starts: Line 307
+
+Task 9, Get Users: [PR URL]
+- APP.TEST starts: Line 399
 
 
 ---
