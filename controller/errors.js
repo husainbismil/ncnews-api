@@ -23,11 +23,9 @@ exports.psqlErrorHandling = (err, req, res, next) => {
 };
 
 exports.testNext404 = (err, req, res, next) => {
-    console.log("dsfdfdsd")
     res.status(404).send({error: "Error 404! File Not Found"});
 };
 
 exports.testNext400 = (err, req, res, next) => {
-    console.log("gfd4etre")
     res.status(400).send({error: "Error 400! BAD REQUEST"});
 };
