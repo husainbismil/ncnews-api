@@ -6,7 +6,7 @@ const getApiTopics = (request, response) => {
     model.topics.selectTopics().then((selectTopicsResponseObject) => {
         response.status(200).send(selectTopicsResponseObject);
     }).catch((err) => {
-        response.status(404).send(errors.res404);
+        next(err);
     });
 };
 
@@ -17,7 +17,7 @@ const getApiArticles = (request, response) => {
         response.status(200).send(responseObject);
 
     }).catch((err) => {
-        response.status(404).send(errors.res404);
+        next(err);
     });
 };
 
