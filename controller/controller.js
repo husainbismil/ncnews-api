@@ -21,19 +21,17 @@ const getApiArticles = (request, response) => {
     });
 };
 
-// /api/articles/:article_id Endpoints
-const getArticleById = (request, response) => {
+// /api/articles/:article_id Endpoints, + Task 11
+const getArticleById = (request, response, next) => {
     const articleId = request.params["article_id"];
 
     model.articles.selectArticleByArticleId(articleId).then((selectArticleByArticleIdResult) => {
         const responseObject = {};
-        responseObject.article = selectArticleByArticleIdResult.rows[0];
-
+        responseObject.article = selectArticleByArticleIdResult;
         response.status(200).send(responseObject);
     }).catch((err) => {
         response.status(404).send(errors.res404);
     });
-
 };
 
 // 6. GET /api/articles/:article_id/comments
@@ -51,6 +49,7 @@ const getCommentsByArticleId = (request, response, next) => {
         // for each comment, remove article_id before responding
         returnedCommentsArray.forEach(feCommentRemoveArticleId);
         responseObject.comments = returnedCommentsArray;
+        // console.log(responseObject)
         response.status(200).send(responseObject);
     }).catch((err) => {
         next(err);

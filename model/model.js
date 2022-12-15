@@ -32,12 +32,33 @@ const selectCommentsByArticleId = (articleId) => {
 
 const selectArticleByArticleId = (articleId) => {
     const securedArticleId = Number(articleId);
-    
-    const sqlQueryParameters = [securedArticleId];
-    const sqlQuery = `SELECT * FROM articles WHERE article_id = $1;`;
+    // had trouble with this one, but its like 4am so i cant nchelp. definetly needs changes
+    // const sqlQueryParameters = [securedArticleId];
 
-    return db.query(sqlQuery, sqlQueryParameters).then((selectArticleByArticleIdQueryResult) => {
-        return selectArticleByArticleIdQueryResult;
+    const sqlQuery = `SELECT articles.*, COUNT(comments.*) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.article_id GROUP BY articles.article_id ORDER BY created_at DESC;`;
+
+    return db.query(sqlQuery).then((selectArticleByArticleIdQueryResult) => {
+        let articleOutput =  selectArticleByArticleIdQueryResult.rows;
+        // for each row, find article id
+        const filterArticleOutput = function (element) {
+            if (Number(element["article_id"]) === securedArticleId) {
+                return element;
+            };
+        };
+        // there is probably a SQL query way to do this that i cant think of :( ... will change once i find out how to do it
+        articleOutput = articleOutput.filter(filterArticleOutput);
+
+        // converting string to num
+        const objectOutput = articleOutput[0];
+  
+        if (objectOutput) {
+            objectOutput["comment_count"] = Number(objectOutput["comment_count"]);
+            return objectOutput;
+        } else {
+            return Promise.reject("nah m8");
+        };
+        // will change above once i find out how to do it properly, too late rn to nchelp
+
     });   
 
 };

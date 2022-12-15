@@ -88,6 +88,7 @@ describe(`NCNews-Server Unit Tests`, () => {
     });
 
     // Task 5 - get api articles articleid
+    // and TASK 11: add in comment count
 
     describe(`GET /api/articles/:article_id`, () => {
 
@@ -105,6 +106,7 @@ describe(`NCNews-Server Unit Tests`, () => {
                             article_id: expect.any(Number),
                             created_at: expect.any(String),
                             votes: expect.any(Number),
+                            comment_count: expect.any(Number)
                     }));
             });
         });
@@ -127,7 +129,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         });
 
         test(`[ 404 ] Responds with an error when passed an SQL injection test 1`, () => {
-
+            
             return request(app).get(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles`).expect(404).then((response) => {
                 expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
             });
