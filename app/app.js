@@ -23,7 +23,9 @@ app.post("/api/articles/:article_id/comments", controller.comments.postCommentTo
 
 // Error Handling
 app.all('*', controller.errors.fileNotFound);
+app.use(controller.errors.psqlErrorHandling);
 app.use(controller.errors.testNext404);
+app.use(controller.errors.testNext400);
 
 // Exports
 module.exports = app;
