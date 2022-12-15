@@ -1,9 +1,0 @@
-pull requests:
-
-3 get api topics v2 (after kyle changes, needs resubmission): https://github.com/husainbismil/ncnews-server/pull/2
-4 get api articles: https://github.com/husainbismil/ncnews-server/pull/3
-5 get api article by articleid: https://github.com/husainbismil/ncnews-server/pull/4
-
-
-
-
