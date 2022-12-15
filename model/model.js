@@ -17,9 +17,36 @@ const selectArticles = () => {
     });
 };
 
+const selectCommentsByArticleId = (articleId) => {
+    const sqlQueryParameters = [Number(articleId)];
+    const sqlQuery = `SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC;`;
+
+    return db.query(sqlQuery, sqlQueryParameters).then((selectCommentsByArticleIdQueryResult) => {
+        return selectCommentsByArticleIdQueryResult;
+    });
+};
+
+const selectArticleByArticleId = (articleId) => {
+    const securedArticleId = Number(articleId);
+    
+    const sqlQueryParameters = [securedArticleId];
+    const sqlQuery = `SELECT * FROM articles WHERE article_id = $1;`;
+
+    return db.query(sqlQuery, sqlQueryParameters).then((selectArticleByArticleIdResult) => {
+        const responseObject = {};
+        if (selectArticleByArticleIdResult.rows[0]) {
+            responseObject.article = selectArticleByArticleIdResult.rows[0];
+            return responseObject;
+        } else {
+            return Promise.reject("Nothing was returned from database. Error 404.")
+        };
+    });   
+
+};
+
 module.exports = {
     topics: {selectTopics},
-    articles: {selectArticles}, 
-    comments: {},
+    articles: {selectArticles, selectArticleByArticleId}, 
+    comments: {selectCommentsByArticleId},
     users: {}
 };
