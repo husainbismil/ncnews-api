@@ -14,8 +14,11 @@ Task 7, Post Comment By Article Id: https://github.com/husainbismil/ncnews-serve
 Task 8, Patch Article Votes by Article Id: https://github.com/husainbismil/ncnews-server/pull/7
 - APP.TEST starts: Line 307
 
-Task 9, Get Users: [PR URL]
+Task 9, Get Users: https://github.com/husainbismil/ncnews-server/pull/8
 - APP.TEST starts: Line 399
+
+Task 10, Get : [PR URL]
+- APP.TEST starts: Line 0
 
 
 ---
