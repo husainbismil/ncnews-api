@@ -25,11 +25,8 @@ const getApiArticles = (request, response, next) => {
 const getArticleById = (request, response, next) => {
     const articleId = request.params["article_id"];
 
-    model.articles.selectArticleByArticleId(articleId).then((selectArticleByArticleIdResult) => {
-        const responseObject = {};
-        responseObject.article = selectArticleByArticleIdResult.rows[0];
-
-        response.status(200).send(responseObject);
+    model.articles.selectArticleByArticleId(articleId).then((responseObject) => {
+          response.status(200).send(responseObject);
     }).catch((err) => {
         next(err);
     });

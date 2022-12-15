@@ -95,17 +95,16 @@ describe(`NCNews-Server Unit Tests`, () => {
 
             return request(app).get(`/api/articles/1`).expect(200).then((response) => {
                 const article = response.body.article;
-
+ 
                     expect(article).toEqual(
                         expect.objectContaining({
-                            author: expect.any(String),
-                            title: expect.any(String),
-                            topic: expect.any(String),
-                            body: expect.any(String),
-                            article_id: expect.any(Number),
-                            created_at: expect.any(String),
-                            votes: expect.any(Number),
-                    }));
+                            title: "Living in the shadow of a great man",
+                            topic: "mitch",
+                            author: "butter_bridge",
+                            body: "I find this existence challenging",
+                            votes: 100,
+                            article_id: 1
+                    }));                   
             });
         });
 
@@ -118,25 +117,33 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         });
 
-        test(`[ 404 ] Responds with an error when passed invalid parameters`, () => {
+        test(`[ 400 ] Responds with an error when passed invalid parameters`, () => {
 
-            return request(app).get(`/api/articles/sdfdefds`).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+            return request(app).get(`/api/articles/sdfdefds`).expect(400).then((response) => {
+                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
             });
 
         });
 
-        test(`[ 404 ] Responds with an error when passed an SQL injection test 1`, () => {
+        test(`[ 400 ] Responds with an error when passed an SQL injection test 1`, () => {
 
-            return request(app).get(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles`).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+            return request(app).get(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles`).expect(400).then((response) => {
+                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
             });
 
         });
 
-        test(`[ 404 ] Responds with an error when passed an SQL injection test 2`, () => {
+        test(`[ 400 ] Responds with an error when passed an SQL injection test 2`, () => {
 
-            return request(app).get(`/api/articles/1; DROP TABLE articles`).expect(404).then((response) => {
+            return request(app).get(`/api/articles/1; DROP TABLE articles`).expect(400).then((response) => {
+                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+            });
+
+        });
+
+        test(`[ 404 ] Responds with an error when passed a valid but non-existent article id`, () => {
+
+            return request(app).get(`/api/articles/99999999`).expect(404).then((response) => {
                 expect(response.body).toEqual({ error: "Error 404! File Not Found" });
             });
 

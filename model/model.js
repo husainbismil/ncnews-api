@@ -32,8 +32,14 @@ const selectArticleByArticleId = (articleId) => {
     const sqlQueryParameters = [securedArticleId];
     const sqlQuery = `SELECT * FROM articles WHERE article_id = $1;`;
 
-    return db.query(sqlQuery, sqlQueryParameters).then((selectArticleByArticleIdQueryResult) => {
-        return selectArticleByArticleIdQueryResult;
+    return db.query(sqlQuery, sqlQueryParameters).then((selectArticleByArticleIdResult) => {
+        const responseObject = {};
+        if (selectArticleByArticleIdResult.rows[0]) {
+            responseObject.article = selectArticleByArticleIdResult.rows[0];
+            return responseObject;
+        } else {
+            return Promise.reject("Nothing was returned from database. Error 404.")
+        };
     });   
 
 };
