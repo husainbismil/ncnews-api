@@ -6,19 +6,23 @@ const getApiTopics = (request, response) => {
     model.topics.selectTopics().then((selectTopicsResponseObject) => {
         response.status(200).send(selectTopicsResponseObject);
     }).catch((err) => {
-        response.status(404).send(errors.res404);
+        next(err);
     });
+
 };
 
-// /api/articles Endpoints
+// /api/articles Endpoints + Task 10
 const getApiArticles = (request, response) => {
+    const urlParameters = request.query;
+
     model.articles.selectArticles().then((responseObject) => {
 
         response.status(200).send(responseObject);
 
     }).catch((err) => {
-        response.status(404).send(errors.res404);
+        next(err);
     });
+
 };
 
 // /api/articles/:article_id Endpoints, + Task 11
@@ -30,8 +34,9 @@ const getArticleById = (request, response, next) => {
         responseObject.article = selectArticleByArticleIdResult;
         response.status(200).send(responseObject);
     }).catch((err) => {
-        response.status(404).send(errors.res404);
+        next(err);
     });
+
 };
 
 // 6. GET /api/articles/:article_id/comments
