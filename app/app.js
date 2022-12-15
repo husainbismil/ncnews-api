@@ -24,4 +24,3 @@ app.use(controller.errors.testNext400);
 
 // Exports
 module.exports = app;
-
