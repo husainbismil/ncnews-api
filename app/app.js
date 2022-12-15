@@ -22,4 +22,3 @@ app.use(controller.errors.testNext404);
 
 // Exports
 module.exports = app;
-
