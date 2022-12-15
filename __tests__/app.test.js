@@ -198,10 +198,15 @@ describe(`NCNews-Server Unit Tests`, () => {
     });
 
 
-     // Task 7 - POST /api/articles/:article_id/comments
-     describe(`POST /api/articles/:article_id/comments`, () => {
+    // Task 7 - POST /api/articles/:article_id/comments
+    describe.only(`POST /api/articles/:article_id/comments`, () => {
 
         // should there be a test to see if the user exists? not sure, normally i'd do that but i think im meant to just stick to the happy path probably
+
+        const defaultComment = {
+            username: `icellusedkars`,
+            body: `blah blah blah blah blah`
+        };
 
         test(`[ 201 ] Responds with the newly posted comment`, () => {
 
@@ -219,7 +224,7 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         test(`[ 404 ] Responds with an error when passed invalid URL parameters`, () => {
 
-            return request(app).post(`/api/articles/sdfdefds/comments`).expect(404).then((response) => {
+            return request(app).post(`/api/articles/sdfdefds/comments`).send(defaultComment).expect(404).then((response) => {
                 expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
             });
 
@@ -282,7 +287,7 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         test(`[ 404 ] Responds with an error when passed an SQL injection in URL parameters, test 1`, () => {
             // %2Fapi%2Farticles%2F1%3B+DROP+TABLE+articles%3B%2Fcomments
-            return request(app).post(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles;/comments`).expect(404).then((response) => {
+            return request(app).post(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles;/comments`).send(defaultComment).expect(404).then((response) => {
                 expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
             });
 
@@ -290,7 +295,7 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         test(`[ 404 ] Responds with an error when passed an SQL injection in URL parameters, test 2`, () => {
 
-            return request(app).post(`/api/articles/1; DROP TABLE articles;/comments`).expect(404).then((response) => {
+            return request(app).post(`/api/articles/1; DROP TABLE articles;/comments`).send(defaultComment).expect(404).then((response) => {
                 expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
             });
 
