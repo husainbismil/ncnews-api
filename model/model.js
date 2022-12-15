@@ -8,14 +8,10 @@ const selectTopics = () => {
 };
 
 const selectArticles = () => {
-    const sqlQuery = `SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.created_at, articles.votes, COUNT(comments.*) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.article_id GROUP BY articles.article_id ORDER BY created_at DESC;`
+    const sqlQuery = `SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.created_at, articles.votes, CAST(COUNT(comments.*) AS int) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.article_id GROUP BY articles.article_id ORDER BY created_at DESC;`
 
     return db.query(sqlQuery).then((queryResult) => {
-        // Convert values to correct formats
-        queryResult.rows.forEach((element) => {
-            element["comment_count"] = Number(element["comment_count"]);
-        });
-
+        
         const responseObject = {articles: queryResult.rows};
         return responseObject;
     });
@@ -23,10 +19,17 @@ const selectArticles = () => {
 
 const selectCommentsByArticleId = (articleId) => {
     const sqlQueryParameters = [Number(articleId)];
-    const sqlQuery = `SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC;`;
+    const sqlQuery = `SELECT comment_id, author, created_at, body, votes FROM comments WHERE article_id = $1 ORDER BY created_at DESC;`;
 
-    return db.query(sqlQuery, sqlQueryParameters).then((selectCommentsByArticleIdQueryResult) => {
-        return selectCommentsByArticleIdQueryResult;
+    return db.query(sqlQuery, sqlQueryParameters).then((selectCommentsByArticleIdOutput) => {
+        const responseObject = {};
+        const returnedCommentsArray = selectCommentsByArticleIdOutput.rows;
+        if (returnedCommentsArray.length > 0) {
+        responseObject.comments = returnedCommentsArray;
+        return responseObject;
+        } else {
+            return Promise.reject("Nothing was returned from database. ")
+        };
     });
 };
 
@@ -36,8 +39,14 @@ const selectArticleByArticleId = (articleId) => {
     const sqlQueryParameters = [securedArticleId];
     const sqlQuery = `SELECT * FROM articles WHERE article_id = $1;`;
 
-    return db.query(sqlQuery, sqlQueryParameters).then((selectArticleByArticleIdQueryResult) => {
-        return selectArticleByArticleIdQueryResult;
+    return db.query(sqlQuery, sqlQueryParameters).then((selectArticleByArticleIdResult) => {
+        const responseObject = {};
+        if (selectArticleByArticleIdResult.rows[0]) {
+            responseObject.article = selectArticleByArticleIdResult.rows[0];
+            return responseObject;
+        } else {
+            return Promise.reject("Nothing was returned from database. Error 404.")
+        };
     });   
 
 };
