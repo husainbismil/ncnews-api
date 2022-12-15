@@ -61,7 +61,6 @@ const postCommentToArticle = (request, response, next) => {
       });
 };
 
-
 module.exports = {
     errors,
     topics: { getApiTopics },
