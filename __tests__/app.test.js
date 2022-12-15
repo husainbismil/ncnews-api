@@ -222,7 +222,6 @@ describe(`NCNews-Server Unit Tests`, () => {
  
     });
 
-
      // Task 7 - POST /api/articles/:article_id/comments
      describe(`POST /api/articles/:article_id/comments`, () => {
 
@@ -315,7 +314,6 @@ describe(`NCNews-Server Unit Tests`, () => {
             });
 
         });
-
 
     });      
        
