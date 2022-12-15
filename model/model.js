@@ -19,10 +19,17 @@ const selectArticles = () => {
 
 const selectCommentsByArticleId = (articleId) => {
     const sqlQueryParameters = [Number(articleId)];
-    const sqlQuery = `SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC;`;
+    const sqlQuery = `SELECT comment_id, author, created_at, body, votes FROM comments WHERE article_id = $1 ORDER BY created_at DESC;`;
 
-    return db.query(sqlQuery, sqlQueryParameters).then((selectCommentsByArticleIdQueryResult) => {
-        return selectCommentsByArticleIdQueryResult;
+    return db.query(sqlQuery, sqlQueryParameters).then((selectCommentsByArticleIdOutput) => {
+        const responseObject = {};
+        const returnedCommentsArray = selectCommentsByArticleIdOutput.rows;
+        if (returnedCommentsArray.length > 0) {
+        responseObject.comments = returnedCommentsArray;
+        return responseObject;
+        } else {
+            return Promise.reject("Nothing was returned from database. ")
+        };
     });
 };
 
@@ -32,8 +39,14 @@ const selectArticleByArticleId = (articleId) => {
     const sqlQueryParameters = [securedArticleId];
     const sqlQuery = `SELECT * FROM articles WHERE article_id = $1;`;
 
-    return db.query(sqlQuery, sqlQueryParameters).then((selectArticleByArticleIdQueryResult) => {
-        return selectArticleByArticleIdQueryResult;
+    return db.query(sqlQuery, sqlQueryParameters).then((selectArticleByArticleIdResult) => {
+        const responseObject = {};
+        if (selectArticleByArticleIdResult.rows[0]) {
+            responseObject.article = selectArticleByArticleIdResult.rows[0];
+            return responseObject;
+        } else {
+            return Promise.reject(400);
+        };
     });   
 
 };
@@ -48,7 +61,12 @@ const insertCommentByArticleId = (articleId, commentObject) => {
     const sqlQuery = `INSERT INTO comments (article_id, author, body) VALUES ($1, $2, $3) RETURNING *;`;
 
     return db.query(sqlQuery, sqlQueryParameters).then((insertCommentByArticleIdResult) => {
-        return insertCommentByArticleIdResult;
+        if (insertCommentByArticleIdResult.rows) {
+        const responseObject = {comment: insertCommentByArticleIdResult.rows[0]};
+        return responseObject;
+        } else {
+            return Promise.reject({errcode: 404});
+        };
     });   
 
 };
