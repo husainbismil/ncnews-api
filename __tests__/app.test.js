@@ -198,8 +198,8 @@ describe(`NCNews-Server Unit Tests`, () => {
     });
 
 
-    // Task 7 - POST /api/articles/:article_id/comments
-    describe.only(`POST /api/articles/:article_id/comments`, () => {
+     // Task 7 - POST /api/articles/:article_id/comments
+     describe(`POST /api/articles/:article_id/comments`, () => {
 
         // should there be a test to see if the user exists? not sure, normally i'd do that but i think im meant to just stick to the happy path probably
 
