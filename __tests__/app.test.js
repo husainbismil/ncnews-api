@@ -199,7 +199,7 @@ describe(`NCNews-Server Unit Tests`, () => {
 
 
     // Task 7 - POST /api/articles/:article_id/comments
-    describe.only(`POST /api/articles/:article_id/comments`, () => {
+    describe(`POST /api/articles/:article_id/comments`, () => {
 
         // should there be a test to see if the user exists? not sure, normally i'd do that but i think im meant to just stick to the happy path probably
 
@@ -307,21 +307,33 @@ describe(`NCNews-Server Unit Tests`, () => {
     // Task 8 - PATCH /api/articles/:article_id
     describe(`PATCH /api/articles/:article_id`, () => {
 
-        test(`[ 201 ] Responds with the updated article with correctly adjusted vote count`, () => {
-            // votes should be 100 originally, so new votes would be 101
-            const votesObject = { inc_votes : 1 }
+        const defaultVotesObject = { inc_votes : 1 };
+
+        test(`[ 201 ] Responds with the updated article with correctly adjusted vote count, increasing vote count`, () => {
+            const votesObject = { inc_votes : 2 };
 
             return request(app).patch('/api/articles/1').send(votesObject).expect(201).then((response) => {
 
                 expect(response.body.article["article_id"]).toEqual(1);
-                expect(response.body.article.votes).toEqual(101);
+                expect(response.body.article.votes).toEqual(102);
+            });
+
+        });
+
+        test(`[ 201 ] Responds with the updated article with correctly adjusted vote count, decreasing vote count`, () => {
+            const votesObject = { inc_votes : -5 };
+
+            return request(app).patch('/api/articles/1').send(votesObject).expect(201).then((response) => {
+
+                expect(response.body.article["article_id"]).toEqual(1);
+                expect(response.body.article.votes).toEqual(95);
             });
 
         });
 
         test(`[ 404 ] Responds with an error when passed invalid URL parameters`, () => {
 
-            return request(app).patch('/api/articles/1').send(votesObject).expect(404).then((response) => {
+            return request(app).patch('/api/articles/1').send(defaultVotesObject).expect(404).then((response) => {
                 expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
             });
 
@@ -329,53 +341,37 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         test(`[ 404 ] Responds with an error when passed an object without the required keys`, () => {
 
-            const newComment = {
+            const votesObject = {
                 wat: "k",
                 k: "k"
             };
 
-            return request(app).post('/api/articles/1/comments').send(newComment).expect(404).then((response) => {
+            return request(app).post('/api/articles/1/comments').send(votesObject).expect(404).then((response) => {
                 expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
             });
 
         });
 
-        test(`[ 404 ] Responds with an error when passed an invalid username`, () => {
+        test(`[ 404 ] Responds with an error when passed an invalid vote of the wrong type`, () => {
 
-            const newComment = {
-                username: 545435345,
-                body: "k"
+            const votesObject = {
+                inc_votes: `dksfsdjlfds`
             };
 
-            return request(app).post('/api/articles/1/comments').send(newComment).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
-            });
-
-
-        });
-
-        test(`[ 404 ] Responds with an error when passed an invalid body of the wrong type`, () => {
-
-            const newComment = {
-                username: "k",
-                body: 545435345
-            };
-
-            return request(app).post('/api/articles/1/comments').send(newComment).expect(404).then((response) => {
+            return request(app).post('/api/articles/1/comments').send(votesObject).expect(404).then((response) => {
                 expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
             });
 
 
         });
 
-        test(`[ 404 ] Responds with an error when passed an SQL injection in the JSON object`, () => {
+        test(`[ 404 ] Responds with an error when passed an SQL injection in the votes property`, () => {
 
-            const newComment = {
-                username: `icellusedkars; DROP TABLE articles;`,
-                body: `blah; DROP TABLE articles;`
+            const votesObject = {
+                inc_votes: `1; DROP TABLE articles;`
             };
 
-            return request(app).post('/api/articles/1/comments').send(newComment).expect(404).then((response) => {
+            return request(app).post('/api/articles/1/comments').send(votesObject).expect(404).then((response) => {
                 expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
             });
 
@@ -384,7 +380,7 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         test(`[ 404 ] Responds with an error when passed an SQL injection in URL parameters, test 1`, () => {
             // %2Fapi%2Farticles%2F1%3B+DROP+TABLE+articles%3B%2Fcomments
-            return request(app).post(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles;/comments`).expect(404).then((response) => {
+            return request(app).post(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles;/comments`).send(defaultVotesObject).expect(404).then((response) => {
                 expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
             });
 
@@ -392,7 +388,7 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         test(`[ 404 ] Responds with an error when passed an SQL injection in URL parameters, test 2`, () => {
 
-            return request(app).post(`/api/articles/1; DROP TABLE articles;/comments`).expect(404).then((response) => {
+            return request(app).post(`/api/articles/1; DROP TABLE articles;/comments`).send(defaultVotesObject).expect(404).then((response) => {
                 expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
             });
 
