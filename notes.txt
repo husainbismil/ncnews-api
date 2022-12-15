@@ -5,6 +5,7 @@ Task 4, Get Article: https://github.com/husainbismil/ncnews-server/pull/3
 Task 5, Get Article By Id: https://github.com/husainbismil/ncnews-server/pull/4
 Task 6, Get Comments By Article Id: https://github.com/husainbismil/ncnews-server/pull/5
 Task 7, Post Comment By Article Id: https://github.com/husainbismil/ncnews-server/pull/6
+Task 8, Patch Article Votes by Article Id: https://github.com/husainbismil/ncnews-server/pull/7
  
 
 
