@@ -73,7 +73,7 @@ const postCommentToArticle = (request, response, next) => {
 };
 
 // 8. PATCH /api/articles/:article_id
-const modifyArticleVotesByArticleId = (request, response, next) => {
+const patchArticleVotesByArticleId = (request, response, next) => {
     const articleId = request.params["article_id"];
     const incVotesObject = request.body;
     
@@ -83,6 +83,7 @@ const modifyArticleVotesByArticleId = (request, response, next) => {
         response.status(201).send(responseObject);
 
     }).catch((err) => {
+        console.log(err)
         next(err);
     });
 
@@ -97,7 +98,7 @@ module.exports = {
     articles: { 
         getApiArticles, 
         getArticleById, 
-        modifyArticleVotesByArticleId 
+        patchArticleVotesByArticleId 
     }, 
     comments: { 
         getCommentsByArticleId, 

@@ -199,7 +199,7 @@ describe(`NCNews-Server Unit Tests`, () => {
 
 
     // Task 7 - POST /api/articles/:article_id/comments
-    describe.only(`POST /api/articles/:article_id/comments`, () => {
+    describe(`POST /api/articles/:article_id/comments`, () => {
 
         // should there be a test to see if the user exists? not sure, normally i'd do that but i think im meant to just stick to the happy path probably
 
@@ -313,7 +313,7 @@ describe(`NCNews-Server Unit Tests`, () => {
             const votesObject = { inc_votes : 2 };
 
             return request(app).patch('/api/articles/1').send(votesObject).expect(201).then((response) => {
-
+                console.log(response.body.article)
                 expect(response.body.article["article_id"]).toEqual(1);
                 expect(response.body.article.votes).toEqual(102);
             });
@@ -333,7 +333,7 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         test(`[ 404 ] Responds with an error when passed invalid URL parameters`, () => {
 
-            return request(app).patch('/api/articles/1').send(defaultVotesObject).expect(404).then((response) => {
+            return request(app).patch('/api/articles/fddfggdrtd').send(defaultVotesObject).expect(404).then((response) => {
                 expect(response.body).toEqual({ error: "<strong>Error 404</strong> File Not Found" });
             });
 

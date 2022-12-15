@@ -62,7 +62,7 @@ const updateArticleVotesByArticleId = (articleId, incVotesObject) => {
     const incVotes = Number(incVotesObject["inc_votes"]);
 
     const sqlQueryParameters = [incVotes, securedArticleId];
-    const sqlQuery = `UPDATE articles SET votes = $1 WHERE article_id = $2 RETURNING *;`;
+    const sqlQuery = `UPDATE articles SET votes = votes + $1 WHERE article_id = $2 RETURNING *;`;
 
     return db.query(sqlQuery, sqlQueryParameters).then((updateArticleVotesByArticleIdResult) => {
         return updateArticleVotesByArticleIdResult;
