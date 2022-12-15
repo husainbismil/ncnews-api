@@ -58,7 +58,7 @@ const selectArticleByArticleId = (articleId) => {
             objectOutput["comment_count"] = Number(objectOutput["comment_count"]);
             return objectOutput;
         } else {
-            return Promise.reject("nah m8");
+            return Promise.reject();
         };
         // will change above once i find out how to do it properly, too late rn to nchelp
 
