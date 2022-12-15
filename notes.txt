@@ -17,11 +17,13 @@ Task 8, Patch Article Votes by Article Id: https://github.com/husainbismil/ncnew
 Task 9, Get Users: https://github.com/husainbismil/ncnews-server/pull/8
 - APP.TEST starts: Line 399
 
-Task 10, Get users: [PR URL]
-- APP.TEST starts: Line 0
+Task 10 : [in progress]
+- APP.TEST starts: having issues with the sql query
 
-Task 11, Get Article by ID + comment count: https://github.com/husainbismil/ncnews-server/pull/9
-- APP.TEST starts: Line 90
+Task 11, Get Article By ArticleId Comment Count [issues] : https://github.com/husainbismil/ncnews-server/pull/9
+- APP.TEST starts: Line 196
+
+
 
 
 ---
