@@ -19,10 +19,17 @@ const selectArticles = () => {
 
 const selectCommentsByArticleId = (articleId) => {
     const sqlQueryParameters = [Number(articleId)];
-    const sqlQuery = `SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC;`;
+    const sqlQuery = `SELECT comment_id, author, created_at, body, votes FROM comments WHERE article_id = $1 ORDER BY created_at DESC;`;
 
-    return db.query(sqlQuery, sqlQueryParameters).then((selectCommentsByArticleIdQueryResult) => {
-        return selectCommentsByArticleIdQueryResult;
+    return db.query(sqlQuery, sqlQueryParameters).then((selectCommentsByArticleIdOutput) => {
+        const responseObject = {};
+        const returnedCommentsArray = selectCommentsByArticleIdOutput.rows;
+        if (returnedCommentsArray.length > 0) {
+        responseObject.comments = returnedCommentsArray;
+        return responseObject;
+        } else {
+            return Promise.reject("Nothing was returned from database. ")
+        };
     });
 };
 

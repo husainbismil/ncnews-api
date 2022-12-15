@@ -33,10 +33,24 @@ const getArticleById = (request, response, next) => {
 
 };
 
+// 6. GET /api/articles/:article_id/comments
+const getCommentsByArticleId = (request, response, next) => {
+    const articleId = request.params["article_id"];
+
+    model.comments.selectCommentsByArticleId(articleId).then((responseObject) => {
+
+   
+        response.status(200).send(responseObject);
+    }).catch((err) => {
+        next(err);
+      });
+
+};
+
 module.exports = {
     errors,
     topics: { getApiTopics },
     articles: { getApiArticles, getArticleById }, 
-    comments: {},
+    comments: { getCommentsByArticleId },
     users: {}
 };
