@@ -1,7 +1,0 @@
-pull requests:
-
-[SUBMITTED] trello task 3 get api topics v2 (after kyle changes, needs resubmission): https://github.com/husainbismil/ncnews-server/pull/2
-[ ] trello task 4 get api articles: https://github.com/husainbismil/ncnews-server/pull/3
-[ ] trello task 5 get api article by articleid: https://github.com/husainbismil/ncnews-server/pull/4
-[ ] trello task 6 get api articles articleids comments: https://github.com/husainbismil/ncnews-server/pull/5
-[ ] trello task 7 POST /api/articles/:article_id/comments: https://github.com/husainbismil/ncnews-server/pull/6
