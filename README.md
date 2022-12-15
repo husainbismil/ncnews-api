@@ -12,7 +12,7 @@ See here for help: https://docs.github.com/en/repositories/creating-and-managing
 
 The repo files should be in a folder named 'ncnews-server'.
  
-
+ 
 ## Setting up your .env files
 
 Next, you need to set up your 'dotenv' files. 

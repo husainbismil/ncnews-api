@@ -47,10 +47,25 @@ const getCommentsByArticleId = (request, response, next) => {
 
 };
 
+// 7. POST /api/articles/:article_id/comments
+const postCommentToArticle = (request, response, next) => {
+    const articleId = request.params["article_id"];
+    const commentObject = request.body;
+
+    model.comments.insertCommentByArticleId(articleId, commentObject).then((responseObject) => {
+        
+        response.status(201).send(responseObject);
+
+    }).catch((err) => {
+        next(err);
+      });
+};
+
 module.exports = {
     errors,
     topics: { getApiTopics },
     articles: { getApiArticles, getArticleById }, 
-    comments: { getCommentsByArticleId },
+    comments: { getCommentsByArticleId, postCommentToArticle },
     users: {}
 };
+    

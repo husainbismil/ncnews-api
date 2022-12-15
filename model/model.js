@@ -45,15 +45,36 @@ const selectArticleByArticleId = (articleId) => {
             responseObject.article = selectArticleByArticleIdResult.rows[0];
             return responseObject;
         } else {
-            return Promise.reject("Nothing was returned from database. Error 404.")
+            return Promise.reject(400);
         };
     });   
 
 };
 
+const insertCommentByArticleId = (articleId, commentObject) => {
+    // skipping check to see if commentObject is in correct format, assuming i need to just stick to happy path only
+    const securedArticleId = Number(articleId);
+    const commentAuthor = commentObject.username;
+    const commentBody = commentObject.body;
+
+    const sqlQueryParameters = [securedArticleId, commentAuthor, commentBody];
+    const sqlQuery = `INSERT INTO comments (article_id, author, body) VALUES ($1, $2, $3) RETURNING *;`;
+
+    return db.query(sqlQuery, sqlQueryParameters).then((insertCommentByArticleIdResult) => {
+        if (insertCommentByArticleIdResult.rows) {
+        const responseObject = {comment: insertCommentByArticleIdResult.rows[0]};
+        return responseObject;
+        } else {
+            return Promise.reject({errcode: 404});
+        };
+    });   
+
+};
+
+
 module.exports = {
     topics: {selectTopics},
     articles: {selectArticles, selectArticleByArticleId}, 
-    comments: {selectCommentsByArticleId},
+    comments: {selectCommentsByArticleId, insertCommentByArticleId},
     users: {}
 };
