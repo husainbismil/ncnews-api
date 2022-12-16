@@ -10,18 +10,17 @@ const getApiTopics = (request, response, next) => {
     });
 };
 
-// /api/articles Endpoints + Task 10
-const getApiArticles = (request, response) => {
-    const urlParameters = request.query;
+// /api/articles Endpoints + Task 10 (URL Parameters)
+const getApiArticles = (request, response, next) => {
+    const urlParams = request.query;
 
-    model.articles.selectArticles().then((responseObject) => {
-
+    model.articles.selectArticles(urlParams).then((responseObject) => {
+        //console.log(responseObject)
         response.status(200).send(responseObject);
 
-    }).catch((err) => {
+    }).catch(err => {
         next(err);
     });
-
 };
 
 // /api/articles/:article_id Endpoints, + Task 11
@@ -77,7 +76,6 @@ const patchArticleVotesByArticleId = (request, response, next) => {
         response.status(201).send(responseObject);
 
     }).catch((err) => {
-        console.log(err)
         next(err);
     });
 

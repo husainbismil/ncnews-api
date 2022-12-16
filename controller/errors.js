@@ -8,14 +8,14 @@ exports.fileNotFound = (req, res) => {
 exports.psqlErrorHandling = (err, req, res, next) => {
     const ec = err.code.slice(0, 2);
 
-    if (err.statcode === 400) {
+    if (err.statcode === 400 || err.code === "23502" || err.code === "23503") {
         res.status(400).send({ error: "Error 400! BAD REQUEST" });
     } else if (err.statcode === 404) {
         res.status(404).send({error: "Error 404! File Not Found"});
     } else if (err.code.slice(0, 4) === "2350") {
       // 404 - Integrity Constraint Violation
       res.status(400).send({ error: "Error 400! BAD REQUEST" });
-    } else if (ec.slice(0, 1) === "2" || ec.toLowerCase() === "42") {
+    } else if (ec.slice(0, 1) === "2" || ec.toLowerCase() === "42" || ec === "22") {
       // 400 - Data Exception OR invalid SQL
       // 400 - Handle Syntax Errors / Access Rule Violations
       res.status(400).send({ error: "Error 400! BAD REQUEST" });
