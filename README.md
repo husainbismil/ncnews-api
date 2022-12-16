@@ -54,7 +54,7 @@ sudo chmod 440 .env.test
 
 ## Installing required dependencies
 
-First, you need to install nodejs, and the nodejs package manager (npm).
+First, you need to install nodejs, the nodejs package manager (npm), and postgresql. 
 
 For linux (ubuntu/debian), use these instructions to do that, located under the heading "Install Node.js and npm from the Ubuntu repository": https://linuxize.com/post/how-to-install-node-js-on-ubuntu-20-04/
 
@@ -64,7 +64,7 @@ For WSL, use these instructions: [wsl instructions]
 
 For Mac OSX, use these instructions: [mac osx instructions]
 
-Once nodeJS is verified as installed, you can proceed to the next steps below. 
+Once nodeJS and psql are verified as installed, you can proceed to the next steps below. 
 
 Next, you need to make sure you have the required npm (node package manager) packages installed for the application to function correctly. 
 
@@ -76,7 +76,27 @@ Step 6) Copy in the following line and press enter:
 npm install
 ```
 
+Alternatively you can search from the following list on the NPM website: 
+
+Development Dependencies: 
+
+```js
+husky, jest, jest-extended, pg-format, supertest
+```
+
+Dependencies
+: 
+```js
+dotenv, express, pg, pg-format, supertest
+```
+
 Assuming no errors are encountered, proceed to the next step. 
+
+Run the following command in terminal to seed the psql database:
+
+```js
+psql -f ./db/setup.sql
+```
 
   <img align="right" title="NC News" width="200" alt="NC News" src="https://github.com/husainbismil/ncnews-server/blob/main/btn_veps.png?raw=true">
 
