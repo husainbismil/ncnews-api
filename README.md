@@ -73,9 +73,8 @@ npm install
 
 Assuming no errors are encountered, proceed to the next step. 
 
-<p align="center">
-  <img title="NC News" width="200" alt="NC News" src="https://github.com/husainbismil/ncnews-server/blob/main/btn_veps.png?raw=true">
-</p>
+  <img align="right" title="NC News" width="200" alt="NC News" src="https://github.com/husainbismil/ncnews-server/blob/main/btn_veps.png?raw=true">
+
 
 
 ## Under Construction
