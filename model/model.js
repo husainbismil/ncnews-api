@@ -79,7 +79,6 @@ const updateArticleVotesByArticleId = (articleId, incVotesObject) => {
     const sqlQuery = `UPDATE articles SET votes = votes + $1 WHERE article_id = $2 RETURNING *;`;
 
     return db.query(sqlQuery, sqlQueryParameters).then((updateArticleVotesByArticleIdResult) => {
-
         const updatedArticle = updateArticleVotesByArticleIdResult.rows[0];
         const responseObject = {article: updatedArticle};
         return responseObject;
@@ -87,6 +86,20 @@ const updateArticleVotesByArticleId = (articleId, incVotesObject) => {
 
 
 }
+
+const selectUsers = () => {
+    const sqlQuery = `SELECT * FROM users ORDER BY username ASC;`;
+
+    return db.query(sqlQuery).then((selectUsersResult) => {
+        const responseObject = {users: selectUsersResult.rows};
+        return responseObject;
+    });   
+
+}
+
+
+
+
 
 // Exports
 module.exports = {
@@ -103,6 +116,6 @@ module.exports = {
         insertCommentByArticleId
     },
     users: {
-
+        selectUsers
     }
 };

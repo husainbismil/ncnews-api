@@ -67,7 +67,7 @@ const patchArticleVotesByArticleId = (request, response, next) => {
     const incVotesObject = request.body;
     
     model.articles.updateArticleVotesByArticleId(articleId, incVotesObject).then((responseObject) => {
-        
+
         response.status(200).send(responseObject);
 
     }).catch((err) => {
@@ -76,6 +76,16 @@ const patchArticleVotesByArticleId = (request, response, next) => {
     });
 
 };
+
+// 9. GET /api/users
+const getUsers = (request, response, next) => {
+    model.users.selectUsers().then((responseObject) => {
+        response.status(200).send(responseObject);
+    }).catch((err) => {
+        next(err);
+    });
+
+}
 
 // Exports
 module.exports = {
@@ -92,7 +102,8 @@ module.exports = {
         getCommentsByArticleId, 
         postCommentToArticle 
     },
-
-    users: {}
+    users: {
+        getUsers
+    }
 };
     
