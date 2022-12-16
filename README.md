@@ -1,5 +1,10 @@
 # Northcoders News API Server #
 
+<p align="center">
+  <img title="NC News" width="380" alt="NC News" src="https://github.com/husainbismil/ncnews-server/blob/main/u_logo.png?raw=true">
+</p>
+
+
 Welcome to the NC-News Server repo, part of my Northcoders portfolio project and designed to work with the react based front-end web app 'NC News'. This repository includes the NC-News server files, which need to be hosted somewhere and running for the NC-News front-end to work. 
 
 If you would like to host your own NC-News Server, please follow these instructions. 
@@ -12,7 +17,7 @@ See here for help: https://docs.github.com/en/repositories/creating-and-managing
 
 The repo files should be in a folder named 'ncnews-server'.
  
-
+ 
 ## Setting up your .env files
 
 Next, you need to set up your 'dotenv' files. 
