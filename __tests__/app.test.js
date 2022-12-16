@@ -171,12 +171,12 @@ describe(`NCNews-Server Unit Tests`, () => {
                 });
 
                 
-                // End sort_by tests
+               
             });
 
-            describe(`GET /api/articles/?order=`, () => {
+            describe(`GET /api/articles/?sort_by=`, () => {
 
-                // end order tests
+              
             });
 
             describe(`GET /api/articles/?order=A&topic=B&sort_by=C`, () => {
