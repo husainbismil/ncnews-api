@@ -174,7 +174,23 @@ const selectUsers = () => {
         return selectUsersResult;
     });   
 
-}
+};
+
+
+// is it ok to have this named the same as the corresponding controller function? i thought its okay cause they are in different files and always referred to like model.comments.deleteCommentByCommentId
+const deleteCommentByCommentId = (commentId) => {
+    const sqlQuery = `DELETE FROM comments WHERE comment_id = $1 RETURNING *;`;
+    const sqlQueryParameters = [commentId];
+
+    return db.query(sqlQuery, sqlQueryParameters).then((result) => {
+        if (result.rows[0]) {
+            return;
+        } else {
+            return Promise.reject();
+        }
+    });   
+
+};
 
 
 
@@ -192,7 +208,8 @@ module.exports = {
     }, 
     comments: {
         selectCommentsByArticleId, 
-        insertCommentByArticleId
+        insertCommentByArticleId, 
+        deleteCommentByCommentId
     },
     users: {
         selectUsers
