@@ -1,7 +1,7 @@
 # Northcoders News API Server #
 
 <p align="center">
-  <img title="NC News" alt="NC News" src="[http://www.fillmurray.com/460/300](https://github.com/husainbismil/ncnews-server/blob/main/mini-logo.png?raw=true)">
+  <img title="NC News" alt="NC News" src="https://github.com/husainbismil/ncnews-server/blob/main/mini-logo.png?raw=true">
 </p>
 
 
