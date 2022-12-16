@@ -1,5 +1,7 @@
 # Northcoders News API Server #
 
+![NCNews API Server ](https://github.com/husainbismil/ncnews-server/blob/main/n_logo.png?raw=true)
+
 Welcome to the NC-News Server repo, part of my Northcoders portfolio project and designed to work with the react based front-end web app 'NC News'. This repository includes the NC-News server files, which need to be hosted somewhere and running for the NC-News front-end to work. 
 
 If you would like to host your own NC-News Server, please follow these instructions. 
