@@ -379,7 +379,7 @@ describe(`NCNews-Server Unit Tests`, () => {
             });
 
 
-        });
+        }); 
 
         test(`[ 400 ] Responds with an error when passed an SQL injection in the votes property`, () => {
 
@@ -395,14 +395,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         });
 
         
-        test(`[ 400 ] Responds with an error when passed an SQL injection in URL parameters, test 2`, () => {
-
-            return request(app).post(`/api/articles/1; DROP TABLE articles;/comments`).send(defaultVotesObject).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
-            });
-
-        });
-
+        
     }); 
 
     // Task 9 - GET /api/users

@@ -68,7 +68,7 @@ const patchArticleVotesByArticleId = (request, response, next) => {
     
     model.articles.updateArticleVotesByArticleId(articleId, incVotesObject).then((responseObject) => {
 
-        response.status(201).send(responseObject);
+        response.status(200).send(responseObject);
 
     }).catch((err) => {
         console.log(err)
