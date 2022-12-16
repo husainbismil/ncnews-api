@@ -107,7 +107,7 @@ const selectArticleByArticleId = (articleId) => {
     // had trouble with this one, but its like 4am so i cant nchelp. definetly needs changes
     // const sqlQueryParameters = [securedArticleId];
 
-    const sqlQuery = `SELECT articles.*, COUNT(comments.*) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.article_id GROUP BY articles.article_id ORDER BY created_at DESC;`;
+    const sqlQuery = `SELECT articles.*, CAST(COUNT(comments.*) AS int) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.article_id GROUP BY articles.article_id ORDER BY created_at DESC;`;
 
     return db.query(sqlQuery).then((selectArticleByArticleIdQueryResult) => {
         let articleOutput =  selectArticleByArticleIdQueryResult.rows;
