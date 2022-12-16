@@ -13,6 +13,7 @@ app.get("/api/topics", controller.topics.getApiTopics);
 // Articles
 app.get("/api/articles", controller.articles.getApiArticles);
 app.get("/api/articles/:article_id", controller.articles.getArticleById);
+app.patch("/api/articles/:article_id", controller.articles.patchArticleVotesByArticleId);
 
 // Comments
 app.get("/api/articles/:article_id/comments", controller.comments.getCommentsByArticleId);

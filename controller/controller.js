@@ -61,11 +61,38 @@ const postCommentToArticle = (request, response, next) => {
       });
 };
 
+// 8. PATCH /api/articles/:article_id
+const patchArticleVotesByArticleId = (request, response, next) => {
+    const articleId = request.params["article_id"];
+    const incVotesObject = request.body;
+    
+    model.articles.updateArticleVotesByArticleId(articleId, incVotesObject).then((responseObject) => {
+        
+        response.status(200).send(responseObject);
+
+    }).catch((err) => {
+        console.log(err)
+        next(err);
+    });
+
+};
+
+// Exports
 module.exports = {
     errors,
-    topics: { getApiTopics },
-    articles: { getApiArticles, getArticleById }, 
-    comments: { getCommentsByArticleId, postCommentToArticle },
+    topics: { 
+        getApiTopics 
+    },
+    articles: { 
+        getApiArticles, 
+        getArticleById, 
+        patchArticleVotesByArticleId 
+    }, 
+    comments: { 
+        getCommentsByArticleId, 
+        postCommentToArticle 
+    },
+
     users: {}
 };
     
