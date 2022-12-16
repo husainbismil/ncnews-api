@@ -72,14 +72,17 @@ const insertCommentByArticleId = (articleId, commentObject) => {
 };
 
 const updateArticleVotesByArticleId = (articleId, incVotesObject) => {
-    const securedArticleId = Number(articleId);
+    const numArticleId = Number(articleId);
     const incVotes = Number(incVotesObject["inc_votes"]);
 
-    const sqlQueryParameters = [incVotes, securedArticleId];
+    const sqlQueryParameters = [incVotes, numArticleId];
     const sqlQuery = `UPDATE articles SET votes = votes + $1 WHERE article_id = $2 RETURNING *;`;
 
     return db.query(sqlQuery, sqlQueryParameters).then((updateArticleVotesByArticleIdResult) => {
-        return updateArticleVotesByArticleIdResult;
+
+        const updatedArticle = updateArticleVotesByArticleIdResult.rows[0];
+        const responseObject = {article: updatedArticle};
+        return responseObject;
     });   
 
 
