@@ -180,11 +180,14 @@ describe(`NCNews-Server Unit Tests`, () => {
             });
 
             describe(`GET /api/articles/?order=A&topic=B&sort_by=C`, () => {
+                // tests to make sure all parameters work when provided at once
+                // test all different possible combinations
 
             });
 
 
             describe(`GET /api/articles/? - other cases`, () => {
+                // should still work as normal even if invalid stuff given as long as it isnt a real parameter
 
             });           
 
