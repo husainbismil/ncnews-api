@@ -58,20 +58,17 @@ const selectArticles = (urlParams) => {
 
         };
 
-
-    };
-        
-
+    };       
+       
         const sqlQuery = `SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.created_at, articles.votes, CAST(COUNT(comments.*) AS int) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.article_id GROUP BY articles.article_id ORDER BY ${sortBy} ${order};`;
-
-     
+          
     
  
     return db.query(sqlQuery).then((queryResult) => {
         
         const responseObject = {};
 
-        // this is probably the wrong way to do this.. will remove once i figure out how to do it in an sql query
+        // this is probably the wrong way to do this.. will remove once i figure out how to do it in an sql query. tried using WHERE in various different ways but none seemed to work with the JOIN 
         if (topicBool) {
             const topicFilteredResult = queryResult.rows.filter((element) => {
                 if (element.topic.toLowerCase() === topic) {return element;};

@@ -82,6 +82,24 @@ describe(`NCNews-Server Unit Tests`, () => {
 
             describe(`GET /api/articles/?topic=`, () => {
 
+                test(`[ 200 ] When passed "topic=cats" as a url parameter, responds with the 1 cat topic article`, () => {
+
+                    return request(app).get(`/api/articles?topic=cats`).expect(200).then((response) => {
+                        const articlesArray = response.body.articles;   
+                        expect(articlesArray).toHaveLength(1);
+                        expect(articlesArray[0]["topic"]).toBe("cats");
+        
+                    });
+                });
+
+                test(`[ 200 ] A topic with zero matches returns an empty array`, () => {
+
+                    return request(app).get(`/api/articles?topic=k`).expect(200).then((response) => {
+                        const articlesArray = response.body.articles;   
+                        expect(articlesArray).toHaveLength(0);
+                               
+                    });
+                });
             });
 
             describe(`GET /api/articles/?order=`, () => {
