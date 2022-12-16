@@ -4,9 +4,15 @@
   <img title="NC News" width="380" alt="NC News" src="https://github.com/husainbismil/ncnews-server/blob/main/u_logo.png?raw=true">
 </p>
 
+<<<<<<< HEAD
 **NCNews-Server** (NC News API Server) is a back-end server application that is designed to serve API requests, which are responsible for displaying requested content and allowing controlled user manipulation of data via its React.js based **NCNews-WebApp** front-end. 
 
 This API allows users of the WebApp to view and interact with the ElephantSQL hosted PostgreSQL database by simply interacting with user interface elements on the front-end, which runs in the internet browser on the clients device, and from the client HTTP requests are sent to preset API endpoints on the NC News API Server . The **NC News API Server** can also be alternatively put into use by sending HTTP requests directly to it without the use of a front end, for example through a tool such as Insomnia, an API Testing Tool, your own application, etc.
+=======
+NCNews-Server is a back-end server application that is designed to serve API requests, which are responsible for displaying requested content and allowing controlled user manipulation of data via its React.js based NCNews-WebApp front-end. 
+
+This API allows users of the WebApp to view and interact with the ElephantSQL hosted PostgreSQL database by simply interacting with user interface elements on the front-end, which runs in the internet browser on the clients device, and from there sends HTTP requests to preset API endpoints on the NC News API Server . The NC News API Server can also be alternatively put into use by sending HTTP requests directly to it without the use of a front end, for example through a tool such as Insomnia, an API Testing Tool, or your own application.
+>>>>>>> 45394450cf108425f7a264e48b1fb0c9db49139b
 
 These two apps were developed as part of my Northcoders Portfolio using the Object Oriented Programming programming paradigm, Model View Controller software architechtural pattern, Test Driven Software Development via Jest, along with Agile project management techniques such as Kanban (Trello) as part of their 13-week Software Development bootcamp: www.northcoders.com. 
 
@@ -95,12 +101,15 @@ dotenv, express, pg, pg-format, supertest
 
 Assuming no errors are encountered, proceed to the next step. 
 
+<<<<<<< HEAD
 Run the following command in terminal to seed the psql database:
 
 ```js
 psql -f ./db/setup.sql
 ```
 
+=======
+>>>>>>> 45394450cf108425f7a264e48b1fb0c9db49139b
   <img align="right" title="NC News" width="200" alt="NC News" src="https://github.com/husainbismil/ncnews-server/blob/main/btn_veps.png?raw=true">
 
 
