@@ -2,7 +2,7 @@ const model = require("../model/model");
 const errors = require("../controller/errors.js");
 
 // /api/topics Endpoints
-const getApiTopics = (request, response) => {
+const getApiTopics = (request, response, next) => {
     model.topics.selectTopics().then((selectTopicsResponseObject) => {
         response.status(200).send(selectTopicsResponseObject);
     }).catch((err) => {
@@ -10,13 +10,15 @@ const getApiTopics = (request, response) => {
     });
 };
 
-// /api/articles Endpoints
-const getApiArticles = (request, response) => {
-    model.articles.selectArticles().then((responseObject) => {
+// /api/articles Endpoints + Task 10 (URL Parameters)
+const getApiArticles = (request, response, next) => {
+    const urlParams = request.query;
 
+    model.articles.selectArticles(urlParams).then((responseObject) => {
+        //console.log(responseObject)
         response.status(200).send(responseObject);
 
-    }).catch((err) => {
+    }).catch(err => {
         next(err);
     });
 };
@@ -32,28 +34,21 @@ const getArticleById = (request, response, next) => {
     }).catch((err) => {
         next(err);
     });
+
 };
 
 // 6. GET /api/articles/:article_id/comments
 const getCommentsByArticleId = (request, response, next) => {
     const articleId = request.params["article_id"];
 
-    model.comments.selectCommentsByArticleId(articleId).then((selectCommentsByArticleIdOutput) => {
-        const feCommentRemoveArticleId = function (element, index) {
-            delete returnedCommentsArray[index]["article_id"];
-        };
+    model.comments.selectCommentsByArticleId(articleId).then((responseObject) => {
 
-        const responseObject = {};
-        const returnedCommentsArray = selectCommentsByArticleIdOutput.rows;
-
-        // for each comment, remove article_id before responding
-        returnedCommentsArray.forEach(feCommentRemoveArticleId);
-        responseObject.comments = returnedCommentsArray;
-        // console.log(responseObject)
+   
         response.status(200).send(responseObject);
     }).catch((err) => {
         next(err);
-    });
+      });
+
 };
 
 // 7. POST /api/articles/:article_id/comments
@@ -61,14 +56,13 @@ const postCommentToArticle = (request, response, next) => {
     const articleId = request.params["article_id"];
     const commentObject = request.body;
 
-    model.comments.insertCommentByArticleId(articleId, commentObject).then((insertCommentByArticleIdResult) => {
+    model.comments.insertCommentByArticleId(articleId, commentObject).then((responseObject) => {
         
-        const responseObject = {comment: insertCommentByArticleIdResult.rows[0]};
         response.status(201).send(responseObject);
 
     }).catch((err) => {
         next(err);
-    });
+      });
 };
 
 // 8. PATCH /api/articles/:article_id
@@ -117,4 +111,3 @@ module.exports = {
         getUsers
     }
 };
-    

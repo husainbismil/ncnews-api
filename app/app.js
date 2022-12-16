@@ -23,8 +23,10 @@ app.post("/api/articles/:article_id/comments", controller.comments.postCommentTo
 app.get("/api/users", controller.users.getUsers);
 
 // Error Handling
+app.use(controller.errors.psqlErrorHandling);
 app.all('*', controller.errors.fileNotFound);
 app.use(controller.errors.testNext404);
+app.use(controller.errors.testNext400);
 
 // Exports
 module.exports = app;

@@ -7,26 +7,101 @@ const selectTopics = () => {
     });
 };
 
-const selectArticles = () => {
-    const sqlQuery = `SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.created_at, articles.votes, COUNT(comments.*) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.article_id GROUP BY articles.article_id ORDER BY created_at DESC;`
+const selectArticles = (urlParams) => {
+    const lowercaseParams = {};
+    Object.keys(urlParams).forEach((element, index) => {
+        // default to lowercase
+        lowercaseParams[element.toLowerCase()] = urlParams[element].toLowerCase();
+    });
 
+
+    let isError = false;
+    let isErrorString = "";
+    let sortBy = "created_at";
+    let topicBool = false;
+    let topic = "";
+    let order = "desc"
+
+
+    if (urlParams) {
+                
+        if (lowercaseParams["sort_by"]) {
+            // check if a valid column was specified
+            const columnsList = ["title","topic","author","body","created_at","votes"];
+            if (columnsList.includes(lowercaseParams["sort_by"])) {
+                sortBy = lowercaseParams["sort_by"];
+            } else {
+                isError = true;
+                isErrorString = "invalid parameter was specified in sort_by";
+            };
+        };
+
+        if (lowercaseParams["order"]) {
+
+
+            const orderListAsc = ["asc",  "ascending",  "a"];
+            const orderListDesc = ["desc", "descending", "d"];
+
+            if (orderListAsc.includes(lowercaseParams["order"])) {
+                order = "asc";
+            } else if (orderListDesc.includes(lowercaseParams["order"])) {
+                order = "desc";
+            } else {
+                isError = true;
+                isErrorString = "";
+            };
+        };
+
+        if (lowercaseParams["topic"]) {
+            topicBool = true;
+            topic =   lowercaseParams["topic"];          
+
+        };
+
+
+    };
+        
+
+        const sqlQuery = `SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.created_at, articles.votes, CAST(COUNT(comments.*) AS int) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.article_id GROUP BY articles.article_id ORDER BY ${sortBy} ${order};`;
+
+     
+    
+ 
     return db.query(sqlQuery).then((queryResult) => {
-        // Convert values to correct formats
-        queryResult.rows.forEach((element) => {
-            element["comment_count"] = Number(element["comment_count"]);
-        });
+        
+        const responseObject = {};
 
-        const responseObject = {articles: queryResult.rows};
+        // this is probably the wrong way to do this.. will remove once i figure out how to do it in an sql query
+        if (topicBool) {
+            const topicFilteredResult = queryResult.rows.filter((element) => {
+                if (element.topic.toLowerCase() === topic) {return element;};
+            });
+            
+            responseObject.articles = topicFilteredResult;
+
+        } else {
+            responseObject.articles = queryResult.rows;
+        };
+
+        if (isError) {return Promise.reject()};
+
         return responseObject;
     });
 };
 
 const selectCommentsByArticleId = (articleId) => {
     const sqlQueryParameters = [Number(articleId)];
-    const sqlQuery = `SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC;`;
+    const sqlQuery = `SELECT comment_id, author, created_at, body, votes FROM comments WHERE article_id = $1 ORDER BY created_at DESC;`;
 
-    return db.query(sqlQuery, sqlQueryParameters).then((selectCommentsByArticleIdQueryResult) => {
-        return selectCommentsByArticleIdQueryResult;
+    return db.query(sqlQuery, sqlQueryParameters).then((selectCommentsByArticleIdOutput) => {
+        const responseObject = {};
+        const returnedCommentsArray = selectCommentsByArticleIdOutput.rows;
+        if (returnedCommentsArray.length > 0) {
+        responseObject.comments = returnedCommentsArray;
+        return responseObject;
+        } else {
+            return Promise.reject("Nothing was returned from database. ")
+        };
     });
 };
 
@@ -55,7 +130,7 @@ const selectArticleByArticleId = (articleId) => {
             objectOutput["comment_count"] = Number(objectOutput["comment_count"]);
             return objectOutput;
         } else {
-            return Promise.reject("nah m8");
+            return Promise.reject();
         };
         // will change above once i find out how to do it properly, too late rn to nchelp
 
@@ -73,7 +148,12 @@ const insertCommentByArticleId = (articleId, commentObject) => {
     const sqlQuery = `INSERT INTO comments (article_id, author, body) VALUES ($1, $2, $3) RETURNING *;`;
 
     return db.query(sqlQuery, sqlQueryParameters).then((insertCommentByArticleIdResult) => {
-        return insertCommentByArticleIdResult;
+        if (insertCommentByArticleIdResult.rows) {
+        const responseObject = {comment: insertCommentByArticleIdResult.rows[0]};
+        return responseObject;
+        } else {
+            return Promise.reject({errcode: 404});
+        };
     });   
 
 };
@@ -89,7 +169,8 @@ const updateArticleVotesByArticleId = (articleId, incVotesObject) => {
         return updateArticleVotesByArticleIdResult;
     });   
 
-};
+
+}
 
 const selectUsers = () => {
     const sqlQuery = `SELECT * FROM users ORDER BY username ASC;`;
