@@ -66,9 +66,8 @@ const patchArticleVotesByArticleId = (request, response, next) => {
     const articleId = request.params["article_id"];
     const incVotesObject = request.body;
     
-    model.articles.updateArticleVotesByArticleId(articleId, incVotesObject).then((updateArticleVotesByArticleIdResult) => {
-        const updatedArticle = updateArticleVotesByArticleIdResult.rows[0];
-        const responseObject = {article: updatedArticle};
+    model.articles.updateArticleVotesByArticleId(articleId, incVotesObject).then((responseObject) => {
+
         response.status(201).send(responseObject);
 
     }).catch((err) => {

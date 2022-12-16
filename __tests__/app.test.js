@@ -327,7 +327,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         test(`[ 201 ] Responds with the updated article with correctly adjusted vote count, increasing vote count`, () => {
             const votesObject = { inc_votes : 2 };
 
-            return request(app).patch('/api/articles/1').send(votesObject).expect(201).then((response) => {
+            return request(app).patch('/api/articles/1').send(votesObject).expect(200).then((response) => {
                 
                 expect(response.body.article["article_id"]).toEqual(1);
                 expect(response.body.article.votes).toEqual(102);
@@ -338,7 +338,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         test(`[ 201 ] Responds with the updated article with correctly adjusted vote count, decreasing vote count`, () => {
             const votesObject = { inc_votes : -5 };
 
-            return request(app).patch('/api/articles/1').send(votesObject).expect(201).then((response) => {
+            return request(app).patch('/api/articles/1').send(votesObject).expect(200).then((response) => {
 
                 expect(response.body.article["article_id"]).toEqual(1);
                 expect(response.body.article.votes).toEqual(95);
@@ -367,6 +367,7 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         });
 
+        // this functionality has been removed
         test(`[ 400 ] Responds with an error when passed an invalid vote of the wrong type`, () => {
 
             const votesObject = {
