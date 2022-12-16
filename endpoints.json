@@ -32,6 +32,11 @@
   "GET /api/articles/:article_id": {
     "description": "Returns an an article using its article ID",
     "queries": [],
+    "exampleRequest": {
+      "method": "get",
+      "url": "/api/articles/10",
+      "body": ""
+    },
     "exampleResponse": {
       "article": [
         {
