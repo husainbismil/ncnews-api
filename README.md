@@ -10,7 +10,7 @@ Welcome to the NC-News Server repo, part of my Northcoders portfolio project and
 If you would like to host your own NC-News Server, please follow these instructions. 
 
 <p align="center">
-  <img title="NC News" width="380" alt="NC News" src="https://github.com/husainbismil/ncnews-server/blob/main/btn_veps.png?raw=true">
+  <img title="NC News" width="200" alt="NC News" src="https://github.com/husainbismil/ncnews-server/blob/main/btn_veps.png?raw=true">
 </p>
 
 ## First Steps
