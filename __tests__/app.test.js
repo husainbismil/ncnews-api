@@ -163,7 +163,6 @@ describe(`NCNews-Server Unit Tests`, () => {
                 });
         
                 test(`[ 404 ] Responds with an error when passed an SQL injection test 2`, () => {
-                    console.log("test is running: [ 404 ] Responds with an error when passed an SQL injection test 2")
                     return request(app).get(`/api/articles?order=asc; DROP TABLE articles`).expect(404).then((response) => {
                         expect(response.body).toEqual({ error: "Error 404! File Not Found" });
                     });
@@ -175,6 +174,29 @@ describe(`NCNews-Server Unit Tests`, () => {
             });
 
             describe(`GET /api/articles/?sort_by=`, () => {
+
+                test(`[ 200 ] When passed "order=desc" as a URL parameter, and "sort_by=author"...`, () => {
+
+                    return request(app).get(`/api/articles?order=desc&sort_by=author`).expect(200).then((response) => {
+                        const articlesArray = response.body.articles;   
+                        expect(articlesArray).toHaveLength(12);
+                        expect(articlesArray[0]["author"]).toBe("rogersop");
+                        expect(articlesArray[3]["author"]).toBe("icellusedkars");
+                        expect(articlesArray[articlesArray.length - 1]["author"]).toBe("butter_bridge");
+                        
+                      });
+                });
+
+                test(`[ 200 ] When passed "order=asc" as a URL parameter, and "sort_by=author"...`, () => {
+
+                    return request(app).get(`/api/articles?order=asc&sort_by=author`).expect(200).then((response) => {
+                        const articlesArray = response.body.articles;   
+                        expect(articlesArray).toHaveLength(12);
+                        expect(articlesArray[0]["author"]).toBe("butter_bridge");
+                        expect(articlesArray[articlesArray.length - 1]["author"]).toBe("rogersop");
+                        
+                    });
+                });
 
               
             });
