@@ -80,8 +80,7 @@ const patchArticleVotesByArticleId = (request, response, next) => {
 
 // 9. GET /api/users
 const getUsers = (request, response, next) => {
-    model.users.selectUsers().then((selectUsersResult) => {
-        const responseObject = {users: selectUsersResult.rows};
+    model.users.selectUsers().then((responseObject) => {
         response.status(200).send(responseObject);
     }).catch((err) => {
         next(err);
