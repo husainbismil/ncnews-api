@@ -31,6 +31,8 @@ Next, you need to set up your 'dotenv' files.
 
 Step 1) Create a file in the root /ncnews-server/ folder, named '.env.development', without the quotes.
 
+<!-- add in instructions for .env.production file for hosting -->
+
 Step 2) Open the 'env.development' file, for example using any text editor like Notepad (Windows) or Gedit (Ubuntu Gnome). Copy the following code, paste it into the file, then save it. 
 
 ```js
@@ -48,6 +50,7 @@ PGDATABASE=nc_news_test
 Step 5) Finally, you should adjust the permissions of the two newly created .env files, so that when you host them, they cannot be accessed by the public. To do this, from your root /ncnews-server/ directory where the .env files are located, run the two following terminal commands:
 
 ```js
+sudo chmod 440 .env.production
 sudo chmod 440 .env.development
 sudo chmod 440 .env.test
 ```
