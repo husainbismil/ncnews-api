@@ -37,7 +37,7 @@ describe(`NCNews-Server Unit Tests`, () => {
     });
 
     describe(`GET /api/articles/`, () => {
-
+                
         test(`[ 200 ] Responds with an array of objects, where the objects have the following 7 properties: author, title, article_id, topic, created_at, votes, comment_count`, () => {
 
             return request(app).get(`/api/articles`).expect(200).then((response) => {
@@ -233,10 +233,11 @@ describe(`NCNews-Server Unit Tests`, () => {
 
 
         });
+
            
     });
-
-    // Error Handling
+	
+	// Error Handling
     describe("Error Handling Tests", () => {
         // GET METHOD 404 ERROR TEST
         test("[ 404 ] Responds with a 404 error when an invalid path is specified", () => {
@@ -248,30 +249,25 @@ describe(`NCNews-Server Unit Tests`, () => {
     });
 
     // Task 5 - get api articles articleid
-    // and TASK 11: add in comment count
 
-    describe(`GET /api/articles/:article_id + comment count`, () => {
+    describe(`GET /api/articles/:article_id`, () => {
 
         test(`[ 200 ] Responds with an object with key article and keyval of an object with the following 7 properties: author, title, article_id, topic, body, created_at, votes`, () => {
 
             return request(app).get(`/api/articles/1`).expect(200).then((response) => {
                 const article = response.body.article;
-
+ 
                     expect(article).toEqual(
                         expect.objectContaining({
-                            author: expect.any(String),
-                            title: expect.any(String),
-                            topic: expect.any(String),
-                            body: expect.any(String),
-                            article_id: expect.any(Number),
-                            created_at: expect.any(String),
-                            votes: expect.any(Number),
-                            comment_count: expect.any(Number)
-                    }));
+                            title: "Living in the shadow of a great man",
+                            topic: "mitch",
+                            author: "butter_bridge",
+                            body: "I find this existence challenging",
+                            votes: 100,
+                            article_id: 1
+                    }));                   
             });
         });
-
-        // TODO: add test to check if comment count is correct for task 11
 
         test(`[ 200 ] Responds with the correct article object with correct articleID`, () => {
 
@@ -282,18 +278,18 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         });
 
-        test(`[ 404 ] Responds with an error when passed invalid parameters`, () => {
+        test(`[ 404 ] Responds with an error when passed invalid parameters / that do not exist`, () => {
 
             return request(app).get(`/api/articles/sdfdefds`).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+                expect(response.body).toEqual({error: "Error 404! File Not Found"});
             });
 
         });
 
         test(`[ 404 ] Responds with an error when passed an SQL injection test 1`, () => {
-            
+
             return request(app).get(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles`).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+                expect(response.body).toEqual({error: "Error 404! File Not Found"});
             });
 
         });
@@ -301,7 +297,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         test(`[ 404 ] Responds with an error when passed an SQL injection test 2`, () => {
 
             return request(app).get(`/api/articles/1; DROP TABLE articles`).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+                expect(response.body).toEqual({error: "Error 404! File Not Found"});
             });
 
         });
@@ -388,8 +384,8 @@ describe(`NCNews-Server Unit Tests`, () => {
     });
 
 
-     // Task 7 - POST /api/articles/:article_id/comments
-     describe(`POST /api/articles/:article_id/comments`, () => {
+    // Task 7 - POST /api/articles/:article_id/comments
+    describe(`POST /api/articles/:article_id/comments`, () => {
 
         const defaultComment = {
             username: `icellusedkars`,
@@ -482,7 +478,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         });
 
 
-    });         
+    });       
 
     // Task 8 - PATCH /api/articles/:article_id
     describe(`PATCH /api/articles/:article_id`, () => {
@@ -492,7 +488,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         test(`[ 201 ] Responds with the updated article with correctly adjusted vote count, increasing vote count`, () => {
             const votesObject = { inc_votes : 2 };
 
-            return request(app).patch('/api/articles/1').send(votesObject).expect(201).then((response) => {
+            return request(app).patch('/api/articles/1').send(votesObject).expect(200).then((response) => {
                 
                 expect(response.body.article["article_id"]).toEqual(1);
                 expect(response.body.article.votes).toEqual(102);
@@ -503,7 +499,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         test(`[ 201 ] Responds with the updated article with correctly adjusted vote count, decreasing vote count`, () => {
             const votesObject = { inc_votes : -5 };
 
-            return request(app).patch('/api/articles/1').send(votesObject).expect(201).then((response) => {
+            return request(app).patch('/api/articles/1').send(votesObject).expect(200).then((response) => {
 
                 expect(response.body.article["article_id"]).toEqual(1);
                 expect(response.body.article.votes).toEqual(95);

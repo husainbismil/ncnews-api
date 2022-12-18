@@ -70,12 +70,12 @@ const patchArticleVotesByArticleId = (request, response, next) => {
     const articleId = request.params["article_id"];
     const incVotesObject = request.body;
     
-    model.articles.updateArticleVotesByArticleId(articleId, incVotesObject).then((updateArticleVotesByArticleIdResult) => {
-        const updatedArticle = updateArticleVotesByArticleIdResult.rows[0];
-        const responseObject = {article: updatedArticle};
-        response.status(201).send(responseObject);
+    model.articles.updateArticleVotesByArticleId(articleId, incVotesObject).then((responseObject) => {
+
+        response.status(200).send(responseObject);
 
     }).catch((err) => {
+        console.log(err)
         next(err);
     });
 
@@ -83,8 +83,7 @@ const patchArticleVotesByArticleId = (request, response, next) => {
 
 // 9. GET /api/users
 const getUsers = (request, response, next) => {
-    model.users.selectUsers().then((selectUsersResult) => {
-        const responseObject = {users: selectUsersResult.rows};
+    model.users.selectUsers().then((responseObject) => {
         response.status(200).send(responseObject);
     }).catch((err) => {
         next(err);

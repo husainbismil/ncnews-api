@@ -68,7 +68,6 @@ const selectArticles = (urlParams) => {
         
         const responseObject = {};
 
-        // this is probably the wrong way to do this.. will remove once i figure out how to do it in an sql query. tried using WHERE in various different ways but none seemed to work with the JOIN 
         if (topicBool) {
             const topicFilteredResult = queryResult.rows.filter((element) => {
                 if (element.topic.toLowerCase() === topic) {return element;};
@@ -150,14 +149,16 @@ const insertCommentByArticleId = (articleId, commentObject) => {
 };
 
 const updateArticleVotesByArticleId = (articleId, incVotesObject) => {
-    const securedArticleId = Number(articleId);
+    const numArticleId = Number(articleId);
     const incVotes = Number(incVotesObject["inc_votes"]);
 
-    const sqlQueryParameters = [incVotes, securedArticleId];
+    const sqlQueryParameters = [incVotes, numArticleId];
     const sqlQuery = `UPDATE articles SET votes = votes + $1 WHERE article_id = $2 RETURNING *;`;
 
     return db.query(sqlQuery, sqlQueryParameters).then((updateArticleVotesByArticleIdResult) => {
-        return updateArticleVotesByArticleIdResult;
+        const updatedArticle = updateArticleVotesByArticleIdResult.rows[0];
+        const responseObject = {article: updatedArticle};
+        return responseObject;
     });   
 
 
@@ -167,7 +168,8 @@ const selectUsers = () => {
     const sqlQuery = `SELECT * FROM users ORDER BY username ASC;`;
 
     return db.query(sqlQuery).then((selectUsersResult) => {
-        return selectUsersResult;
+        const responseObject = {users: selectUsersResult.rows};
+        return responseObject;
     });   
 
 }
