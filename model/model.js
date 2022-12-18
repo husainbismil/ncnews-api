@@ -7,12 +7,80 @@ const selectTopics = () => {
     });
 };
 
-const selectArticles = () => {
-    const sqlQuery = `SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.created_at, articles.votes, CAST(COUNT(comments.*) AS int) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.article_id GROUP BY articles.article_id ORDER BY created_at DESC;`
+const selectArticles = (urlParams) => {
+    const lowercaseParams = {};
+    Object.keys(urlParams).forEach((element, index) => {
+        // default to lowercase
+        lowercaseParams[element.toLowerCase()] = urlParams[element].toLowerCase();
+    });
 
+
+    let isError = false;
+    let isErrorString = "";
+    let sortBy = "created_at";
+    let topicBool = false;
+    let topic = "";
+    let order = "desc"
+
+
+    if (urlParams) {
+                
+        if (lowercaseParams["sort_by"]) {
+            // check if a valid column was specified
+            const columnsList = ["title","topic","author","body","created_at","votes"];
+            if (columnsList.includes(lowercaseParams["sort_by"])) {
+                sortBy = lowercaseParams["sort_by"];
+            } else {
+                isError = true;
+                isErrorString = "invalid parameter was specified in sort_by";
+            };
+        };
+
+        if (lowercaseParams["order"]) {
+
+
+            const orderListAsc = ["asc",  "ascending",  "a"];
+            const orderListDesc = ["desc", "descending", "d"];
+
+            if (orderListAsc.includes(lowercaseParams["order"])) {
+                order = "asc";
+            } else if (orderListDesc.includes(lowercaseParams["order"])) {
+                order = "desc";
+            } else {
+                isError = true;
+                isErrorString = "";
+            };
+        };
+
+        if (lowercaseParams["topic"]) {
+            topicBool = true;
+            topic =   lowercaseParams["topic"];          
+
+        };
+
+    };       
+       
+        const sqlQuery = `SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.created_at, articles.votes, CAST(COUNT(comments.*) AS int) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.article_id GROUP BY articles.article_id ORDER BY ${sortBy} ${order};`;
+          
+    
+ 
     return db.query(sqlQuery).then((queryResult) => {
         
-        const responseObject = {articles: queryResult.rows};
+        const responseObject = {};
+
+        if (topicBool) {
+            const topicFilteredResult = queryResult.rows.filter((element) => {
+                if (element.topic.toLowerCase() === topic) {return element;};
+            });
+            
+            responseObject.articles = topicFilteredResult;
+
+        } else {
+            responseObject.articles = queryResult.rows;
+        };
+
+        if (isError) {return Promise.reject()};
+
         return responseObject;
     });
 };
@@ -35,18 +103,27 @@ const selectCommentsByArticleId = (articleId) => {
 
 const selectArticleByArticleId = (articleId) => {
     const securedArticleId = Number(articleId);
-    
-    const sqlQueryParameters = [securedArticleId];
-    const sqlQuery = `SELECT * FROM articles WHERE article_id = $1;`;
 
-    return db.query(sqlQuery, sqlQueryParameters).then((selectArticleByArticleIdResult) => {
-        const responseObject = {};
-        if (selectArticleByArticleIdResult.rows[0]) {
-            responseObject.article = selectArticleByArticleIdResult.rows[0];
-            return responseObject;
-        } else {
-            return Promise.reject(400);
+    const sqlQuery = `SELECT articles.*, CAST(COUNT(comments.*) AS int) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.article_id GROUP BY articles.article_id ORDER BY created_at DESC;`;
+
+    return db.query(sqlQuery).then((selectArticleByArticleIdQueryResult) => {
+        let articleOutput =  selectArticleByArticleIdQueryResult.rows;
+        const filterArticleOutput = function (element) {
+            if (Number(element["article_id"]) === securedArticleId) {
+                return element;
+            };
         };
+       articleOutput = articleOutput.filter(filterArticleOutput);
+
+        const objectOutput = articleOutput[0];
+  
+        if (objectOutput) {
+            
+            return objectOutput;
+        } else {
+            return Promise.reject();
+        };
+
     });   
 
 };

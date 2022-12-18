@@ -37,7 +37,7 @@ describe(`NCNews-Server Unit Tests`, () => {
     });
 
     describe(`GET /api/articles/`, () => {
-
+                
         test(`[ 200 ] Responds with an array of objects, where the objects have the following 7 properties: author, title, article_id, topic, created_at, votes, comment_count`, () => {
 
             return request(app).get(`/api/articles`).expect(200).then((response) => {
@@ -73,10 +73,171 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         });
 
+        // Task 10 - add in queries
+
+        describe(`GET /api/articles - URL Parameters`, () => {
+
+            // include test to make sure it works for articles? aswell as articles/?
+            // include thorough sql injection tests in each section below
+
+            describe(`GET /api/articles/?topic=`, () => {
+
+                test(`[ 200 ] When passed "topic=cats" as a url parameter, responds with the 1 cat topic article`, () => {
+
+                    return request(app).get(`/api/articles?topic=cats`).expect(200).then((response) => {
+                        const articlesArray = response.body.articles;   
+                        expect(articlesArray).toHaveLength(1);
+                        expect(articlesArray[0]["topic"]).toBe("cats");
+        
+                    });
+                });
+
+                test(`[ 200 ] A topic with zero matches returns an empty array`, () => {
+
+                    return request(app).get(`/api/articles?topic=k`).expect(200).then((response) => {
+                        const articlesArray = response.body.articles;   
+                        expect(articlesArray).toHaveLength(0);
+                               
+                    });
+                });
+            });
+
+            describe(`GET /api/articles/?order=`, () => {
+
+                test(`[ 200 ] By default when passed no order param, server responds with an array of objects, where the objects are sorted by Date using the 'created_at' property in Descending order.`, () => {
+
+                    return request(app).get(`/api/articles`).expect(200).then((response) => {
+                        const articlesArray = response.body.articles;   
+                        expect(articlesArray).toHaveLength(12);
+        
+                        articlesArray.forEach((e, index) => {
+                            if (index < articlesArray.length - 1) {
+                            expect(Date.parse(articlesArray[index][`created_at`]) > Date.parse(articlesArray[index + 1][`created_at`])).toBe(true);
+                        }});
+                    });
+                });
+
+                test(`[ 200 ] When passed "asc" as a URL parameter, server responds with an array of objects, where the objects are sorted by Date using the 'created_at' property in Ascending order.`, () => {
+
+                    return request(app).get(`/api/articles?order=asc`).expect(200).then((response) => {
+                        const articlesArray = response.body.articles;   
+                        expect(articlesArray).toHaveLength(12);
+        
+                        articlesArray.forEach((e, index) => {
+                            if (index < articlesArray.length - 1) {
+                            expect(Date.parse(articlesArray[index][`created_at`]) < Date.parse(articlesArray[index + 1][`created_at`])).toBe(true);
+                        }});
+                    });
+                });
+
+                test(`[ 200 ] Makes sure this endpoint works if URL is formatted slightly differently`, () => {
+
+                    return request(app).get(`/api/articles/?order=asc`).expect(200).then((response) => {
+                        const articlesArray = response.body.articles;   
+                        expect(articlesArray).toHaveLength(12);
+        
+                        articlesArray.forEach((e, index) => {
+                            if (index < articlesArray.length - 1) {
+                            expect(Date.parse(articlesArray[index][`created_at`]) < Date.parse(articlesArray[index + 1][`created_at`])).toBe(true);
+                        }});
+                    });
+                });
+
+                test(`[ 200 ] When passed "desc" as a URL parameter, server responds with an array of objects, where the objects are sorted by Date using the 'created_at' property in Descending order.`, () => {
+
+                    return request(app).get(`/api/articles?order=desc`).expect(200).then((response) => {
+                        const articlesArray = response.body.articles;   
+                        expect(articlesArray).toHaveLength(12);
+        
+                        articlesArray.forEach((e, index) => {
+                            if (index < articlesArray.length - 1) {
+                            expect(Date.parse(articlesArray[index][`created_at`]) > Date.parse(articlesArray[index + 1][`created_at`])).toBe(true);
+                        }});
+                    });
+                });
+
+                test(`[ 404 ] Responds with an error when passed invalid parameters, test 1`, () => {
+
+                    return request(app).get(`/api/articles?order=sdfdefds`).expect(404).then((response) => {
+                        expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+                    });
+        
+                });
+
+                test(`[ 404 ] Responds with an error when passed invalid parameters, test 2`, () => {
+
+                    return request(app).get(`/api/articles?order=1337`).expect(404).then((response) => {
+                        expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+                    });
+        
+                });
+        
+                test(`[ 404 ] Responds with an error when passed an SQL injection test 1`, () => {
+                    
+                    return request(app).get(`/api/articles?order=1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles`).expect(404).then((response) => {
+                        expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+                    });
+        
+                });
+        
+                test(`[ 404 ] Responds with an error when passed an SQL injection test 2`, () => {
+                    return request(app).get(`/api/articles?order=asc; DROP TABLE articles`).expect(404).then((response) => {
+                        expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+                    });
+        
+                });
+
+                
+               
+            });
+
+            describe(`GET /api/articles/?sort_by=`, () => {
+
+                test(`[ 200 ] When passed "order=desc" as a URL parameter, and "sort_by=author"...`, () => {
+
+                    return request(app).get(`/api/articles?order=desc&sort_by=author`).expect(200).then((response) => {
+                        const articlesArray = response.body.articles;   
+                        expect(articlesArray).toHaveLength(12);
+                        expect(articlesArray[0]["author"]).toBe("rogersop");
+                        expect(articlesArray[3]["author"]).toBe("icellusedkars");
+                        expect(articlesArray[articlesArray.length - 1]["author"]).toBe("butter_bridge");
+                        
+                      });
+                });
+
+                test(`[ 200 ] When passed "order=asc" as a URL parameter, and "sort_by=author"...`, () => {
+
+                    return request(app).get(`/api/articles?order=asc&sort_by=author`).expect(200).then((response) => {
+                        const articlesArray = response.body.articles;   
+                        expect(articlesArray).toHaveLength(12);
+                        expect(articlesArray[0]["author"]).toBe("butter_bridge");
+                        expect(articlesArray[articlesArray.length - 1]["author"]).toBe("rogersop");
+                        
+                    });
+                });
+
+              
+            });
+
+            describe(`GET /api/articles/?order=A&topic=B&sort_by=C`, () => {
+                // tests to make sure all parameters work when provided at once
+                // test all different possible combinations
+
+            });
+
+
+            describe(`GET /api/articles/? - other cases`, () => {
+                // should still work as normal even if invalid stuff given as long as it isnt a real parameter
+
+            });           
+
+
+        });
+
            
     });
-
-    // Error Handling
+	
+	// Error Handling
     describe("Error Handling Tests", () => {
         // GET METHOD 404 ERROR TEST
         test("[ 404 ] Responds with a 404 error when an invalid path is specified", () => {
@@ -117,26 +278,26 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         });
 
-        test(`[ 400 ] Responds with an error when passed invalid parameters`, () => {
+        test(`[ 404 ] Responds with an error when passed invalid parameters / that do not exist`, () => {
 
-            return request(app).get(`/api/articles/sdfdefds`).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+            return request(app).get(`/api/articles/sdfdefds`).expect(404).then((response) => {
+                expect(response.body).toEqual({error: "Error 404! File Not Found"});
             });
 
         });
 
-        test(`[ 400 ] Responds with an error when passed an SQL injection test 1`, () => {
+        test(`[ 404 ] Responds with an error when passed an SQL injection test 1`, () => {
 
-            return request(app).get(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles`).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+            return request(app).get(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles`).expect(404).then((response) => {
+                expect(response.body).toEqual({error: "Error 404! File Not Found"});
             });
 
         });
 
-        test(`[ 400 ] Responds with an error when passed an SQL injection test 2`, () => {
+        test(`[ 404 ] Responds with an error when passed an SQL injection test 2`, () => {
 
-            return request(app).get(`/api/articles/1; DROP TABLE articles`).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+            return request(app).get(`/api/articles/1; DROP TABLE articles`).expect(404).then((response) => {
+                expect(response.body).toEqual({error: "Error 404! File Not Found"});
             });
 
         });
@@ -203,10 +364,10 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         });
 
-        test(`[ 400 ] Responds with an error when passed an SQL injection test 1`, () => {
+        test(`[ 404 ] Responds with an error when passed an SQL injection test 1`, () => {
 
-            return request(app).get(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles/comments`).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+            return request(app).get(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles/comments`).expect(404).then((response) => {
+                expect(response.body).toEqual({error: "Error 404! File Not Found"});
             });
 
         });
@@ -223,8 +384,8 @@ describe(`NCNews-Server Unit Tests`, () => {
     });
 
 
-     // Task 7 - POST /api/articles/:article_id/comments
-     describe(`POST /api/articles/:article_id/comments`, () => {
+    // Task 7 - POST /api/articles/:article_id/comments
+    describe(`POST /api/articles/:article_id/comments`, () => {
 
         const defaultComment = {
             username: `icellusedkars`,
@@ -317,7 +478,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         });
 
 
-    });         
+    });       
 
     // Task 8 - PATCH /api/articles/:article_id
     describe(`PATCH /api/articles/:article_id`, () => {
@@ -367,7 +528,6 @@ describe(`NCNews-Server Unit Tests`, () => {
 
         });
 
-        // this functionality has been removed
         test(`[ 400 ] Responds with an error when passed an invalid vote of the wrong type`, () => {
 
             const votesObject = {
@@ -379,7 +539,7 @@ describe(`NCNews-Server Unit Tests`, () => {
             });
 
 
-        }); 
+        });
 
         test(`[ 400 ] Responds with an error when passed an SQL injection in the votes property`, () => {
 
@@ -395,7 +555,14 @@ describe(`NCNews-Server Unit Tests`, () => {
         });
 
         
-        
+        test(`[ 400 ] Responds with an error when passed an SQL injection in URL parameters, test 2`, () => {
+
+            return request(app).post(`/api/articles/1; DROP TABLE articles;/comments`).send(defaultVotesObject).expect(400).then((response) => {
+                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+            });
+
+        });
+
     }); 
 
     // Task 9 - GET /api/users

@@ -10,23 +10,27 @@ const getApiTopics = (request, response, next) => {
     });
 };
 
-// /api/articles Endpoints
+// /api/articles Endpoints + Task 10 (URL Parameters)
 const getApiArticles = (request, response, next) => {
-    model.articles.selectArticles().then((responseObject) => {
+    const urlParams = request.query;
 
+    model.articles.selectArticles(urlParams).then((responseObject) => {
+        //console.log(responseObject)
         response.status(200).send(responseObject);
 
-    }).catch((err) => {
+    }).catch(err => {
         next(err);
     });
 };
 
-// /api/articles/:article_id Endpoints
+// /api/articles/:article_id Endpoints, + Task 11
 const getArticleById = (request, response, next) => {
     const articleId = request.params["article_id"];
 
-    model.articles.selectArticleByArticleId(articleId).then((responseObject) => {
-          response.status(200).send(responseObject);
+    model.articles.selectArticleByArticleId(articleId).then((selectArticleByArticleIdResult) => {
+        const responseObject = {};
+        responseObject.article = selectArticleByArticleIdResult;
+        response.status(200).send(responseObject);
     }).catch((err) => {
         next(err);
     });
