@@ -1,27 +1,154 @@
 {
   "GET /api": {
-    "description": "serves up a json representation of all the available endpoints of the api"
+    "description": "Returns a JSON representation of all the available endpoints of the NC News API"
   },
+
   "GET /api/topics": {
-    "description": "serves an array of all topics",
+    "description": "Returns an array of all topics",
     "queries": [],
     "exampleResponse": {
       "topics": [{ "slug": "football", "description": "Footie!" }]
     }
   },
+
   "GET /api/articles": {
-    "description": "serves an array of all topics",
-    "queries": ["author", "topic", "sort_by", "order"],
+    "description": "Returns an array of all articles",
+    "queries": ["topic", "sort_by", "order"],
     "exampleResponse": {
       "articles": [
         {
-          "title": "Seafood substitutions are increasing",
-          "topic": "cooking",
-          "author": "weegembump",
-          "body": "Text from the article..",
-          "created_at": 1527695953341
+          "article_id": 10,
+          "title": "They're not exactly dogs, are they?",
+          "topic": "mitch",
+          "author": "butter_bridge",
+          "created_at": 1591438200000,
+          "votes": 100,
+          "comment_count": 100
         }
       ]
     }
+  },
+
+  "GET /api/articles/:article_id": {
+    "description": "Returns an an article using its article ID",
+    "queries": [],
+    "exampleRequest": {
+      "method": "get",
+      "url": "/api/articles/10",
+      "body": ""
+    },
+    "exampleResponse": {
+      "article": [
+        {
+          "article_id": 10,
+          "title": "They're not exactly dogs, are they?",
+          "topic": "mitch",
+          "author": "butter_bridge",
+          "body": "blah",
+          "created_at": 1591438200000,
+          "votes": 100,
+          "comment_count": 100
+        }
+      ]
+    }
+  }, 
+
+  "GET /api/articles/:article_id/comments": {
+    "description": "Returns the comments for an article by its article ID",
+    "queries": [],
+    "exampleRequest": {
+      "method": "get",
+      "url": "/api/articles/2/comments",
+      "body": ""
+    },
+    "exampleResponse": {
+      "comments": [
+        {
+          "body": "This morning, I showered for nine minutes.",
+          "votes": 16,
+          "author": "butter_bridge",
+          "comment_id": 1,
+          "created_at": 1595294400000
+        }
+      ]
+    }
+  },
+
+  "POST /api/articles/:article_id/comments": {
+    "description": "Posts a comment to an article by its article ID",
+    "queries": [],
+    "exampleRequest": {
+      "method": "post",
+      "url": "/api/articles/2/comments",
+      "body": {
+        "username": "user",
+        "body": "a comment"
+      }
+    },
+    "exampleResponse": {
+      "comment": [
+        {
+          "body": "This morning, I showered for nine minutes.",
+          "votes": 16,
+          "author": "butter_bridge",
+          "comment_id": 1,
+          "created_at": 1595294400000
+        }
+      ]
+    }
+  }, 
+
+  "PATCH /api/articles/:article_id": {
+    "description": "Increments and updates an articles Votes property by adding a given integer, finding the article by articleID",
+    "queries": [],
+    "exampleRequest": {
+      "method": "patch",
+      "url": "/api/articles/1",
+      "body": {
+        "inc_votes": -1
+      }
+    },
+    "exampleResponse": {
+      "comment": [
+        {
+          "body": "This morning, I showered for nine minutes.",
+          "votes": 16,
+          "author": "butter_bridge",
+          "comment_id": 1,
+          "created_at": 1595294400000
+        }
+      ]
+    }
+  }, 
+
+  "GET /api/users": {
+    "description": "Returns an array of all users",
+    "queries": [],
+    "exampleRequest": {
+      "method": "get",
+      "url": "/api/users",
+      "body": ""
+    },
+    "exampleResponse": {
+      "users": [
+        {
+          "username": "rogersop",
+          "name": "paul",
+          "avatar_url": "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4"
+        }
+      ]
+    }
+  }, 
+
+  "DELETE /api/comments/:comment_id": {
+    "description": "Deletes a comment from the database by its comment ID",
+    "queries": [],
+    "exampleRequest": {
+      "method": "delete",
+      "url": "/api/comments/1",
+      "body": ""
+    },
+    "exampleResponse": {}
   }
+
 }
