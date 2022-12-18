@@ -75,7 +75,6 @@ const patchArticleVotesByArticleId = (request, response, next) => {
         response.status(200).send(responseObject);
 
     }).catch((err) => {
-        console.log(err)
         next(err);
     });
 
