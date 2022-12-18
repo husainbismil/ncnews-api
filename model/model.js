@@ -1,5 +1,9 @@
 const db = require("../db/connection.js");
 
+// TODO: 
+// FIRST, add in changes from branches 8 & 9 into all files in this branch, and all the later branches too.
+// once this branches changes are done, push changes, resolve conflicts, merge main, then add in the changes into the later branches up to Task 13 & 14.
+
 const selectTopics = () => {
     return db.query("SELECT * FROM topics;").then((selectTopicsQueryResult) => {
         const selectTopicsResponseObject = {topics: selectTopicsQueryResult.rows};
