@@ -6,6 +6,7 @@ const app = express();
 app.use(express.json());
 
 // Endpoints
+app.get("/api", controller.getApiEndpoints);
 
 // Topics
 app.get("/api/topics", controller.topics.getApiTopics);

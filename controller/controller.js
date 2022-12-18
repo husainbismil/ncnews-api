@@ -105,9 +105,20 @@ const deleteCommentByCommentId = (request, response, next) => {
 
 };
 
+// GET /api/
+
+const jsonEndpoints = require("../endpoints.json");
+
+const getApiEndpoints = (request, response) => {
+    response.status(200).send(jsonEndpoints);
+};
+
+
+
 // Exports
 module.exports = {
     errors,
+    getApiEndpoints,
     topics: { 
         getApiTopics 
     },
