@@ -1,0 +1,7 @@
+* {
+    text-rendering: optimizeLegibility;
+    font-smooth: always;
+    -webkit-font-smoothing: antialiased;
+    transition: all 0.2s linear 0s;
+}
+
