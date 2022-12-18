@@ -109,16 +109,13 @@ const selectArticleByArticleId = (articleId) => {
 
     return db.query(sqlQuery).then((selectArticleByArticleIdQueryResult) => {
         let articleOutput =  selectArticleByArticleIdQueryResult.rows;
-        // for each row, find article id
         const filterArticleOutput = function (element) {
             if (Number(element["article_id"]) === securedArticleId) {
                 return element;
             };
         };
-        // there is probably a SQL query way to do this that i cant think of :( ... will change once i find out how to do it
-        articleOutput = articleOutput.filter(filterArticleOutput);
+       articleOutput = articleOutput.filter(filterArticleOutput);
 
-        
         const objectOutput = articleOutput[0];
   
         if (objectOutput) {
@@ -127,7 +124,6 @@ const selectArticleByArticleId = (articleId) => {
         } else {
             return Promise.reject();
         };
-        // will change above once i find out how to do it properly, too late rn to nchelp
 
     });   
 
