@@ -18,6 +18,7 @@ app.patch("/api/articles/:article_id", controller.articles.patchArticleVotesByAr
 // Comments
 app.get("/api/articles/:article_id/comments", controller.comments.getCommentsByArticleId);
 app.post("/api/articles/:article_id/comments", controller.comments.postCommentToArticle);
+app.delete("/api/comments/:comment_id", controller.comments.deleteCommentByCommentId)
 
 // Users
 app.get("/api/users", controller.users.getUsers);

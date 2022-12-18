@@ -89,7 +89,21 @@ const getUsers = (request, response, next) => {
         next(err);
     });
 
-}
+};
+
+const deleteCommentByCommentId = (request, response, next) => {
+    const commentId = request.params["comment_id"];
+
+    model.comments.deleteCommentByCommentId(commentId).then(() => {
+        
+        response.status(204).send();
+
+    }).catch((err) => {
+        next(err);
+    });
+
+
+};
 
 // Exports
 module.exports = {
@@ -104,7 +118,8 @@ module.exports = {
     }, 
     comments: { 
         getCommentsByArticleId, 
-        postCommentToArticle 
+        postCommentToArticle, 
+        deleteCommentByCommentId
     },
     users: {
         getUsers

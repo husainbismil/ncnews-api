@@ -586,6 +586,31 @@ describe(`NCNews-Server Unit Tests`, () => {
         });
            
     });
+
+    // Task 12 - DELETE /api/comments/:comment_id
+
+    describe(`DELETE /api/comments/:comment_id`, () => {
+
+        test(`[ 204 ] Responds with status 204 and no content`, () => {
+
+            return request(app).delete('/api/comments/1').send().expect(204).then((response) => {
+                
+                expect(response.body).toEqual({});
+            });
+
+        });
+
+        test(`[ 404 ] Responds with an error if comment does not exist`, () => {
+
+            return request(app).delete('/api/comments/999').send().expect(404).then((response) => {
+                
+                expect(response.body).toEqual({error: "Error 404! File Not Found"});
+            });
+
+        });
+
+
+    });
        
 
 // End Unit Tests
