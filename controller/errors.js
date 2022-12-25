@@ -1,4 +1,4 @@
-exports.res404 = {error: "Error 404 File Not Found"};
+exports.res404 = {status: 404, error: "Error 404 File Not Found", details: "response 404"};
 
 exports.pte = {status: 404, tip: "Go to /api/ to view all endpoints.", url: "https://ncnews-server.onrender.com/api/"};
 
