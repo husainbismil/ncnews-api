@@ -6,7 +6,7 @@
 
 **NCNews-Server** (NC News API Server) is a back-end server application that is designed to serve API requests, which are responsible for displaying requested content and allowing controlled user manipulation of data via its React.js based **NCNews-WebApp** front-end. 
 
-The NCNews-Server is live here (please note, this is not the front end): https://ncnews-server.onrender.com/
+**The NCNews API Server is live here** (please note, this is not the front end): https://ncnews-server.onrender.com/
 
 This API allows users of the WebApp to view and interact with the ElephantSQL hosted PostgreSQL database by simply interacting with user interface elements on the front-end, which runs in the internet browser on the clients device, and from the client HTTP requests are sent to preset API endpoints on the NC News API Server . The **NC News API Server** can also be alternatively put into use by sending HTTP requests directly to it without the use of a front end, for example through a tool such as Insomnia, an API Testing Tool, your own application, etc.
 
