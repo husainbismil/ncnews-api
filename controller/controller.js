@@ -15,7 +15,6 @@ const getApiArticles = (request, response, next) => {
     const urlParams = request.query;
 
     model.articles.selectArticles(urlParams).then((responseObject) => {
-        //console.log(responseObject)
         response.status(200).send(responseObject);
 
     }).catch(err => {

@@ -359,7 +359,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         test(`[ 400 ] Responds with an error when passed invalid parameters`, () => {
 
             return request(app).get(`/api/articles/sdfdefds/comments`).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+                expect(response.body.error).toBeDefined();
             });
 
         });
@@ -375,7 +375,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         test(`[ 400 ] Responds with an error when passed an SQL injection test 2`, () => {
 
             return request(app).get(`/api/articles/1; DROP TABLE articles/comments`).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+                expect(response.body.error).toBeDefined();
             });
 
         });
@@ -409,7 +409,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         test(`[ 400 ] Responds with an error when passed invalid URL parameters`, () => {
 
             return request(app).post(`/api/articles/sdfdefds/comments`).send(defaultComment).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+                expect(response.body.error).toBeDefined();
             });
 
         });
@@ -422,7 +422,7 @@ describe(`NCNews-Server Unit Tests`, () => {
             };
 
             return request(app).post('/api/articles/1/comments').send(newComment).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+                expect(response.body.error).toBeDefined();
                 //expect(response.body).toEqual({ error: "Error 404! File Not Found" });
             });
 
@@ -436,7 +436,7 @@ describe(`NCNews-Server Unit Tests`, () => {
             };
 
             return request(app).post('/api/articles/1/comments').send(newComment).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+                expect(response.body.error).toBeDefined();
             });
 
         });
@@ -449,7 +449,7 @@ describe(`NCNews-Server Unit Tests`, () => {
             };
 
             return request(app).post('/api/articles/1/comments').send(newComment).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+                expect(response.body.error).toBeDefined();
             });
 
 
@@ -463,7 +463,7 @@ describe(`NCNews-Server Unit Tests`, () => {
             };
 
             return request(app).post('/api/articles/1/comments').send(newComment).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+                expect(response.body.error).toBeDefined();
             });
 
 
@@ -472,7 +472,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         test(`[ 400 ] Responds with an error when passed an SQL injection in URL parameters`, () => {
 
             return request(app).post(`/api/articles/1; DROP TABLE articles;/comments`).send(defaultComment).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+                expect(response.body.error).toBeDefined();
             });
 
         });
@@ -510,7 +510,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         test(`[ 400 ] Responds with an error when passed invalid URL parameters`, () => {
 
             return request(app).patch('/api/articles/fddfggdrtd').send(defaultVotesObject).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+                expect(response.body.error).toBeDefined();
             });
 
         });
@@ -523,7 +523,7 @@ describe(`NCNews-Server Unit Tests`, () => {
             };
 
             return request(app).post('/api/articles/1/comments').send(votesObject).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+                expect(response.body.error).toBeDefined();
             });
 
         });
@@ -535,7 +535,7 @@ describe(`NCNews-Server Unit Tests`, () => {
             };
 
             return request(app).post('/api/articles/1/comments').send(votesObject).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+                expect(response.body.error).toBeDefined();
             });
 
 
@@ -548,7 +548,7 @@ describe(`NCNews-Server Unit Tests`, () => {
             };
 
             return request(app).post('/api/articles/1/comments').send(votesObject).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+                expect(response.body.error).toBeDefined();
             });
 
 
@@ -558,7 +558,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         test(`[ 400 ] Responds with an error when passed an SQL injection in URL parameters, test 2`, () => {
 
             return request(app).post(`/api/articles/1; DROP TABLE articles;/comments`).send(defaultVotesObject).expect(400).then((response) => {
-                expect(response.body).toEqual({ error: "Error 400! BAD REQUEST" });
+                expect(response.body.error).toBeDefined();
             });
 
         });
