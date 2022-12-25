@@ -8,7 +8,7 @@
 
 **The NCNews API Server is live here** (please note, this is not the front end): https://ncnews-server.onrender.com/
 
-Please note, as the application is currently being hosted on a free service, it may take a while to load. 
+Please note, as the application is currently being hosted on a free service, it may take a while to load for the first time. 
 
 This API allows users of the WebApp to view and interact with the ElephantSQL hosted PostgreSQL database by simply interacting with user interface elements on the front-end, which runs in the internet browser on the clients device, and from the client HTTP requests are sent to preset API endpoints on the NC News API Server . The **NC News API Server** can also be alternatively put into use by sending HTTP requests directly to it without the use of a front end, for example through a tool such as Insomnia, an API Testing Tool, your own application, etc.
 
