@@ -1,6 +1,12 @@
 const model = require("../model/model");
 const errors = require("../controller/errors.js");
 
+
+const ptApiEndpoints = (request, response) => {
+    response.status(200).send(errors.pte);
+};
+
+
 // /api/topics Endpoints
 const getApiTopics = (request, response, next) => {
     model.topics.selectTopics().then((selectTopicsResponseObject) => {
@@ -117,6 +123,7 @@ const getApiEndpoints = (request, response) => {
 module.exports = {
     errors,
     getApiEndpoints,
+    ptApiEndpoints,
     topics: { 
         getApiTopics 
     },

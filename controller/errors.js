@@ -1,5 +1,7 @@
 exports.res404 = {error: "Error 404 File Not Found"};
 
+exports.pte = {tip: "Go to /api/ to view all endpoints."};
+
 exports.fileNotFound = (req, res) => {
     // Error 404 Handler
     res.status(404).send({error: "Error 404! File Not Found"});
