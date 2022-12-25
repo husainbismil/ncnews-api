@@ -1,6 +1,6 @@
 exports.res404 = {error: "Error 404 File Not Found"};
 
-exports.pte = {tip: "Go to /api/ to view all endpoints."};
+exports.pte = {tip: "Go to /api/ to view all endpoints.", url: "https://ncnews-server.onrender.com/api/"};
 
 exports.fileNotFound = (req, res) => {
     // Error 404 Handler
