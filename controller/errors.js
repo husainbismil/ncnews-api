@@ -18,7 +18,7 @@ exports.psqlErrorHandling = (err, req, res, next) => {
     } else if (ec.slice(0, 1) === "2" || ec.toLowerCase() === "42" || ec === "22") {
       // 400 - Data Exception OR invalid SQL
       // 400 - Handle Syntax Errors / Access Rule Violations
-      res.status(400).send({ error: "Error 400! BAD REQUEST  (Code 3)" });
+      res.status(400).send({ error: "Error 400! BAD REQUEST  (Code 3)", details: err });
     } else if (ec === "53" || ec === "54" || ec === "57") {
       // Handle Internal Server Errors
       res.status(500).send({ error: "Error 500 - Internal Server Error" });
