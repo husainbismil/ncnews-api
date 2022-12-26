@@ -1,10 +1,11 @@
 const homeurl = "https://ncnews-server.onrender.com/api/";
+const ghurl = "https://github.com/husainbismil/ncnews-server";
 const ts = new Date().toISOString();
 const template = {status: 0, error: "", timestamp: ts, home: homeurl};
 
 exports.res404 = {status: 404, timestamp: ts, error: "Error 404 File Not Found", details: "response 404"};
 
-exports.pte = {status: 404, timestamp: ts, tip: "Go to /api/ to view all endpoints.", url: homeurl};
+exports.pte = {status: 404, timestamp: ts, tip: "Go to /api/ to view all endpoints.", url: homeurl, github: ghurl};
 
 
 exports.fileNotFound = (req, res) => {
