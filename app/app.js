@@ -5,6 +5,9 @@ const app = express();
 // Parse JSON by default
 app.use(express.json());
 
+// Format JSON so that it is readable even without a JSON viewer like in Firefox Desktop
+app.set('json spaces', 2);
+
 // Endpoints
 app.get("/", controller.ptApiEndpoints);
 app.get("/api/endpoints", controller.ptApiEndpoints);
