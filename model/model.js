@@ -1,8 +1,10 @@
 const db = require("../db/connection.js");
 
+const ts = Date.now();
+
 const selectTopics = () => {
     return db.query("SELECT * FROM topics;").then((selectTopicsQueryResult) => {
-        const selectTopicsResponseObject = {topics: selectTopicsQueryResult.rows};
+        const selectTopicsResponseObject = {topics: selectTopicsQueryResult.rows, timestamp: ts};
         return selectTopicsResponseObject;
     });
 };
@@ -66,7 +68,7 @@ const selectArticles = (urlParams) => {
  
     return db.query(sqlQuery).then((queryResult) => {
         
-        const responseObject = {};
+        const responseObject = {timestamp: ts};
 
         if (topicBool) {
             const topicFilteredResult = queryResult.rows.filter((element) => {
@@ -90,7 +92,7 @@ const selectCommentsByArticleId = (articleId) => {
     const sqlQuery = `SELECT comment_id, author, created_at, body, votes FROM comments WHERE article_id = $1 ORDER BY created_at DESC;`;
 
     return db.query(sqlQuery, sqlQueryParameters).then((selectCommentsByArticleIdOutput) => {
-        const responseObject = {};
+        const responseObject = {timestamp: ts};
         const returnedCommentsArray = selectCommentsByArticleIdOutput.rows;
         if (returnedCommentsArray.length > 0) {
         responseObject.comments = returnedCommentsArray;
@@ -139,7 +141,7 @@ const insertCommentByArticleId = (articleId, commentObject) => {
 
     return db.query(sqlQuery, sqlQueryParameters).then((insertCommentByArticleIdResult) => {
         if (insertCommentByArticleIdResult.rows) {
-        const responseObject = {comment: insertCommentByArticleIdResult.rows[0]};
+        const responseObject = {comment: insertCommentByArticleIdResult.rows[0], timestamp: ts};
         return responseObject;
         } else {
             return Promise.reject({errcode: 404});
@@ -157,7 +159,7 @@ const updateArticleVotesByArticleId = (articleId, incVotesObject) => {
 
     return db.query(sqlQuery, sqlQueryParameters).then((updateArticleVotesByArticleIdResult) => {
         const updatedArticle = updateArticleVotesByArticleIdResult.rows[0];
-        const responseObject = {article: updatedArticle};
+        const responseObject = {article: updatedArticle, timestamp: ts};
         return responseObject;
     });   
 
@@ -168,7 +170,7 @@ const selectUsers = () => {
     const sqlQuery = `SELECT * FROM users ORDER BY username ASC;`;
 
     return db.query(sqlQuery).then((selectUsersResult) => {
-        const responseObject = {users: selectUsersResult.rows};
+        const responseObject = {users: selectUsersResult.rows, timestamp: ts};
         return responseObject;
     });   
 

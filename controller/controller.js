@@ -1,5 +1,6 @@
 const model = require("../model/model");
 const errors = require("../controller/errors.js");
+const ts = Date.now();
 
 
 const ptApiEndpoints = (request, response) => {
@@ -33,7 +34,7 @@ const getArticleById = (request, response, next) => {
     const articleId = request.params["article_id"];
 
     model.articles.selectArticleByArticleId(articleId).then((selectArticleByArticleIdResult) => {
-        const responseObject = {};
+        const responseObject = {timestamp: ts};
         responseObject.article = selectArticleByArticleIdResult;
         response.status(200).send(responseObject);
     }).catch((err) => {
@@ -100,7 +101,7 @@ const deleteCommentByCommentId = (request, response, next) => {
 
     model.comments.deleteCommentByCommentId(commentId).then(() => {
         
-        response.status(204).send();
+        response.status(204).send({timestamp: ts});
 
     }).catch((err) => {
         next(err);
