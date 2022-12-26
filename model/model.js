@@ -1,6 +1,5 @@
 const db = require("../db/connection.js");
-
-const ts = Date.now().toISOString();
+const ts = new Date().toISOString();
 
 const selectTopics = () => {
     return db.query("SELECT * FROM topics;").then((selectTopicsQueryResult) => {
