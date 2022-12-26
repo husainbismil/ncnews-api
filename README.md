@@ -25,11 +25,11 @@ The API provides a set of endpoints, each with its own unique path. You can view
 | PATCH  | Changes resource   |
 | DELETE  | Deletes resource  |
 
+### Timestamps
+
+Most responses will have a timestamp attached. Timestamps are returned in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.
+
 ### Responses
-
-#### Timestamps
-
-Timestamps are returned in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.
 
 #### Pagination
 
