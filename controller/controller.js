@@ -1,6 +1,6 @@
 const model = require("../model/model");
 const errors = require("../controller/errors.js");
-const ts = Date.now();
+const ts = Date.now().toISOString();
 
 
 const ptApiEndpoints = (request, response) => {
