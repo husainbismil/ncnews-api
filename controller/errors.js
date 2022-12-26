@@ -18,7 +18,7 @@ exports.fileNotFound = (req, res) => {
 
 exports.psqlErrorHandling = (err, req, res, next) => {
     const ec = err.code.slice(0, 2);
-    const e = {...template};
+    let e = {...template};
 
     if (err.statcode === 400 || err.code === "23502" || err.code === "23503") {
         e.status = 400;
