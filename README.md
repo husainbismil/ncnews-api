@@ -16,6 +16,8 @@ The base address of the NCNews-Server Web API is currently https://ncnews-server
 
 The API provides a set of endpoints, each with its own unique path. You can view a list of all endpoints by visiting the above link.
 
+  <img align="right" title="NC News" width="200" alt="NC News" src="https://github.com/husainbismil/ncnews-server/blob/main/btn_veps.png?raw=true">
+
 ### Requests
 
 | Method  | Action |
