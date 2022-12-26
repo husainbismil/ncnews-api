@@ -114,6 +114,8 @@ const deleteCommentByCommentId = (request, response, next) => {
 
 const jsonEndpoints = require("../endpoints.json");
 
+const responseObject = { timestamp: ts, endpoints: jsonEndpoints };
+
 const getApiEndpoints = (request, response) => {
     response.status(200).send(jsonEndpoints);
 };
