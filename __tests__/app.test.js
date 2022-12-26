@@ -159,7 +159,7 @@ describe(`NCNews-Server Unit Tests`, () => {
                 test(`[ 404 ] Responds with an error when passed invalid parameters, test 1`, () => {
 
                     return request(app).get(`/api/articles?order=sdfdefds`).expect(404).then((response) => {
-                        expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+                        expect(response.body.error).toBeDefined();
                     });
         
                 });
@@ -167,7 +167,7 @@ describe(`NCNews-Server Unit Tests`, () => {
                 test(`[ 404 ] Responds with an error when passed invalid parameters, test 2`, () => {
 
                     return request(app).get(`/api/articles?order=1337`).expect(404).then((response) => {
-                        expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+                        expect(response.body.error).toBeDefined();
                     });
         
                 });
@@ -175,14 +175,14 @@ describe(`NCNews-Server Unit Tests`, () => {
                 test(`[ 404 ] Responds with an error when passed an SQL injection test 1`, () => {
                     
                     return request(app).get(`/api/articles?order=1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles`).expect(404).then((response) => {
-                        expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+                        expect(response.body.error).toBeDefined();
                     });
         
                 });
         
                 test(`[ 404 ] Responds with an error when passed an SQL injection test 2`, () => {
                     return request(app).get(`/api/articles?order=asc; DROP TABLE articles`).expect(404).then((response) => {
-                        expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+                        expect(response.body.error).toBeDefined();
                     });
         
                 });
@@ -242,7 +242,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         // GET METHOD 404 ERROR TEST
         test("[ 404 ] Responds with a 404 error when an invalid path is specified", () => {
           return request(app).get("/sdfhdshifsdhfsd").expect(404).then((response) => {
-              expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+              expect(response.body.error).toBeDefined();
             });
         });
         // need 500 internal server error test - find out what to do for that one
@@ -281,7 +281,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         test(`[ 404 ] Responds with an error when passed invalid parameters / that do not exist`, () => {
 
             return request(app).get(`/api/articles/sdfdefds`).expect(404).then((response) => {
-                expect(response.body).toEqual({error: "Error 404! File Not Found"});
+                expect(response.body.error).toBeDefined();
             });
 
         });
@@ -289,7 +289,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         test(`[ 404 ] Responds with an error when passed an SQL injection test 1`, () => {
 
             return request(app).get(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles`).expect(404).then((response) => {
-                expect(response.body).toEqual({error: "Error 404! File Not Found"});
+                expect(response.body.error).toBeDefined();
             });
 
         });
@@ -297,7 +297,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         test(`[ 404 ] Responds with an error when passed an SQL injection test 2`, () => {
 
             return request(app).get(`/api/articles/1; DROP TABLE articles`).expect(404).then((response) => {
-                expect(response.body).toEqual({error: "Error 404! File Not Found"});
+                expect(response.body.error).toBeDefined();
             });
 
         });
@@ -305,7 +305,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         test(`[ 404 ] Responds with an error when passed a valid but non-existent article id`, () => {
 
             return request(app).get(`/api/articles/99999999`).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+                expect(response.body.error).toBeDefined();
             });
 
         });
@@ -343,7 +343,7 @@ describe(`NCNews-Server Unit Tests`, () => {
             //  TODO: this needs to be changed, behaviour needs to return an empty array in this case.
 
                 return request(app).get(`/api/articles/37/comments`).expect(404).then((response) => {
-                    expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+                    expect(response.body.error).toBeDefined();
                 });
 
         });
@@ -351,7 +351,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         test(`[ 404 ] Responds with an error when passed a non existent ID`, () => {
 
             return request(app).get(`/api/articles/999999/comments`).expect(404).then((response) => {
-                expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+                expect(response.body.error).toBeDefined();
             });
 
         });
@@ -367,7 +367,7 @@ describe(`NCNews-Server Unit Tests`, () => {
         test(`[ 404 ] Responds with an error when passed an SQL injection test 1`, () => {
 
             return request(app).get(`/api/articles/1&#59;&nbsp;DROP&nbsp;TABLE&nbsp;articles/comments`).expect(404).then((response) => {
-                expect(response.body).toEqual({error: "Error 404! File Not Found"});
+                expect(response.body.error).toBeDefined();
             });
 
         });
@@ -423,7 +423,7 @@ describe(`NCNews-Server Unit Tests`, () => {
 
             return request(app).post('/api/articles/1/comments').send(newComment).expect(400).then((response) => {
                 expect(response.body.error).toBeDefined();
-                //expect(response.body).toEqual({ error: "Error 404! File Not Found" });
+                //expect(response.body.error).toBeDefined();
             });
 
         });
@@ -604,7 +604,7 @@ describe(`NCNews-Server Unit Tests`, () => {
 
             return request(app).delete('/api/comments/999').send().expect(404).then((response) => {
                 
-                expect(response.body).toEqual({error: "Error 404! File Not Found"});
+                expect(response.body.error).toBeDefined();
             });
 
         });
