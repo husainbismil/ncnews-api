@@ -33,7 +33,7 @@ Most responses will have a timestamp attached. Timestamps are returned in [ISO 8
 
 ### Responses
 
-#### Pagination
+#### Pagination (see note)
 
 > **Please Note: This feature is not yet implemented!**
 
