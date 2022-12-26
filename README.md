@@ -33,7 +33,7 @@ Timestamps are returned in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) for
 
 #### Pagination
 
-> Please Note: This feature is not yet implemented! Please check back later.
+> **Please Note: This feature is not yet implemented!**
 
 Some endpoints support a way of paging the dataset, taking an offset and limit as query parameters:
 
