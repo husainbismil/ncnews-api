@@ -20,7 +20,7 @@ The API provides a set of endpoints, each with its own unique path. You can view
 
 ### Requests
 
-The NCNews Web API is based on REST principles. Data resources are accessed via standard HTTPS requests in UTF-8 format to an API endpoint. Where possible, the API uses appropriate HTTP methods for each action:
+The NCNews Web API is based on REST principles. Data resources are accessed via standard HTTPS requests in UTF-8 format to an API endpoint. The API uses appropriate HTTP methods for each action:
 
 | Method  | Action |
 | ------------- | ------------- |
