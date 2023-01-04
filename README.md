@@ -62,7 +62,6 @@ NCNews-Server Web API uses the following response status codes, as defined in th
 | 403         | Forbidden - The server understood the request, but is refusing to fulfill it.                                                                                                                                        |
 | 404         | Not Found - The requested resource could not be found. This error can be due to a temporary or permanent condition.                                                                                                  |
 | 500         | Internal Server Error. You should never receive this error because all errors should be caught|
-| 502         | Bad Gateway - The server was acting as a gateway or proxy and received an invalid response from the upstream server.                                                                                                 |
 | 503         | Service Unavailable - The server is currently unable to handle the request due to a temporary condition which will be alleviated after some delay. You can choose to resend the request again.                       |
 
 #### Response Error Object
