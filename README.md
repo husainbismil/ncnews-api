@@ -1,9 +1,8 @@
 # Northcoders News Server (NCNews Web API) #
 
 <p align="center">
-  <img title="NC News" width="380" alt="NC News" src="https://github.com/husainbismil/ncnews-server/blob/main/u_logo.png?raw=true">
+  <img title="NC News" width="380" alt="NC News" src="https://github.com/husainbismil/ncnews-server/blob/main/logo.png?raw=true">
 </p>
-<p align="right"> ^ Server</p>
 
 ## Welcome!
 
