@@ -11,7 +11,7 @@ NCNews-Server is a Web API that is designed to serve API requests for display on
 
 ### NCNews Server Details
 
-Based on REST principles, the NCNews-Server Web API endpoints return example JSON metadata from an elephantSQL database, populated with example data provided by Northcoders (the software development bootcamp providers)
+Based on REST principles, the NCNews-Server Web API endpoints return example JSON metadata from an elephantSQL database, populated with example data provided by Northcoders.
 
 The base address of the NCNews-Server Web API is currently https://ncnews-server.onrender.com/api/ .
 
