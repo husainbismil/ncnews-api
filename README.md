@@ -13,7 +13,7 @@ NCNews-Server is a Web API that is designed to serve API requests for display on
 
 Based on REST principles, the NCNews-Server Web API endpoints return example JSON metadata from an elephantSQL database, populated with example data provided by Northcoders.
 
-The base address of the NCNews-Server Web API is currently https://ncnews-server.onrender.com/api/ .
+**An instance is live here** (please note, this is not the front end): https://ncnews-server.onrender.com/
 
 The API provides a set of endpoints, each with its own unique path. You can view a list of all endpoints by visiting the above link.
 
@@ -82,8 +82,6 @@ Apart from the response code, unsuccessful responses return a JSON object contai
 ### What is NC News Server
 
 **NCNews-Server** (NC News API Server) is a back-end server application that is designed to serve API requests, which are responsible for displaying requested content and allowing controlled user manipulation of data via its React.js based **NCNews-WebApp** front-end. 
-
-**The NCNews API Server is live here** (please note, this is not the front end): https://ncnews-server.onrender.com/
 
 Please note, as the application is currently being hosted on a free service, it may take a while to load for the first time. 
 
