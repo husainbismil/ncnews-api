@@ -3,6 +3,7 @@
 <p align="center">
   <img title="NC News" width="380" alt="NC News" src="https://github.com/husainbismil/ncnews-server/blob/main/u_logo.png?raw=true">
 </p>
+^ Web API
 
 ## Welcome!
 
