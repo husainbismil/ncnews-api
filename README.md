@@ -7,7 +7,7 @@ TD: change name of repo & mentions from "server" to just "API".
 
 ## Welcome!
 
-NCNews-API (previously named NCNews-Server) is a Web API that is designed to run on a Node.js server and serve API requests for display on a front end application, created using example data. The purpose of this application is to demonstrate my skills in Javascript and the Node.JS Javascript Framework. 
+NCNews-API (previously named NCNews-Server) is a Web API that is designed to run on a Node.js server and serve API requests for display on a front end application. The purpose of this application is to demonstrate my skills in Javascript and the Node.JS Javascript Framework. 
 
 ### NCNews Server Details
 
