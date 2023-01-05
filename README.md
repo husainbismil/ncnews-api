@@ -1,4 +1,4 @@
-# Northcoders News Server (NCNews Web API) #
+# Northcoders News Web API #
 
 <p align="center">
   <img title="NC News" width="380" alt="NC News" src="https://github.com/husainbismil/ncnews-server/blob/main/logo.png?raw=true">
@@ -7,7 +7,7 @@ TD: change name of repo & mentions from "server" to just "API".
 
 ## Welcome!
 
-NCNews-Server is a Web API that is designed to serve API requests for display on a front end application, created using example data. The purpose of this application is to demonstrate my skills in Javascript and the Node.JS Javascript Framework. 
+NCNews-API (previously named NCNews-Server) is a Web API that is designed to run on a Node.js server and serve API requests for display on a front end application, created using example data. The purpose of this application is to demonstrate my skills in Javascript and the Node.JS Javascript Framework. 
 
 ### NCNews Server Details
 
