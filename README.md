@@ -15,7 +15,7 @@ Based on REST principles, the NCNews-Server Web API endpoints return example JSO
 
 **An instance is live here** (please note, this is not the front end): https://ncnews-server.onrender.com/
 
-Want to host your own instance of this API? [Click here](https://github.com/husainbismil/ncnews-api/blob/main/README.md#hosting-your-own-nc-news-server-instance) to skip ahead to the Hosting section of this Readme.
+Want to host your own instance of this API? [Click here](#hosting-your-own-nc-news-server-instance) to skip ahead to the Hosting section of this Readme.
 
 The API provides a set of endpoints, each with its own unique path. You can view a list of all endpoints by visiting the above link.
 
